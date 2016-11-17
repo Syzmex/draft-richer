@@ -1,0 +1,6 @@
+
+:global {
+  html, body, #example {
+    height: 100%;
+  }
+}

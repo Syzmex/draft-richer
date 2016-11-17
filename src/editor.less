@@ -1,0 +1,128 @@
+
+
+:global {
+
+  @import './Draft.less';
+
+  .RichEditor-root {
+    background: #fff;
+    border: 1px solid #ddd;
+    font-family: PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans;
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .RichEditor-editor {
+    border-top: 1px solid #ddd;
+    cursor: text;
+    font-size: 16px;
+    margin-top: 6px;
+  }
+
+
+  .ant-spin-nested-loading {
+    .DraftEditor-editorContainer {
+      z-index: 0;
+    }
+  }
+
+  .RichEditor-editor .public-DraftEditorPlaceholder-root,
+  .RichEditor-editor .public-DraftEditor-content {
+    margin: 0 -15px -15px;
+    padding: 15px;
+  }
+
+  .RichEditor-editor .public-DraftEditor-content {
+    min-height: 100px;
+  }
+
+  .RichEditor-hidePlaceholder .public-DraftEditorPlaceholder-root {
+    display: none;
+  }
+
+  .RichEditor-editor .public-DraftStyleDefault-pre {
+    background-color: rgba(0, 0, 0, 0.05);
+    font-family: 'Inconsolata', 'Menlo', 'Consolas', monospace;
+    font-size: 16px;
+    padding: 20px;
+  }
+
+  .RichEditor-controls {
+    font-family: 'Helvetica', sans-serif;
+    font-size: 14px;
+    margin-bottom: 3px;
+    user-select: none;
+    display: inline-block;
+  }
+
+  .RichEditor-styleButton {
+    color: #666;
+    cursor: pointer;
+    margin-right: 3px;
+    padding: 2px 0;
+    display: inline-block;
+    line-height: 1;
+    padding: 0.18em 0.25em;
+    text-align: center;
+    border-radius: 3px;
+  }
+
+  .RichEditor-styleButton .iconfont {
+    font-size: 16px;
+  }
+
+  .RichEditor-activeButton {
+    background-color: #eee;
+    color: #5890ff;
+  }
+
+  .RichEditor-disabledButton {
+    color: #bfbfbf;
+  }
+
+
+  // inlinestyle
+  .popover-select {
+    .ant-popover-inner-content {
+      overflow-x: hidden;
+      overflow-y: auto;
+      max-height: 216px;
+      padding-right: 0;
+      padding-left: 0;
+    }
+    .ant-menu {
+      background-color: transparent;
+      z-index: 0;
+    }
+    .ant-menu-vertical {
+      border: none;
+      .ant-menu-item {
+        border: none;
+        padding-left: 15px;
+      }
+    }
+  }
+
+
+  .popover-fontsize {
+    .ant-menu-vertical {
+      .ant-menu-item {
+        line-height: normal;
+        padding-bottom: 10px;
+        padding-left: 28px;
+        padding-top: 10px;
+        height: auto;
+      }
+    }
+  }
+
+
+
+@import './components/blockStyle/blockStyles.less';
+
+
+}
+
+
+
+
