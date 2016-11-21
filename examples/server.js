@@ -4,7 +4,7 @@ import './index.html';
 import './index.css';
 import React from 'react';
 import { render } from 'react-dom';
-import { AntdEditor } from '../src/index';
+import { RichEditor } from '../src/index';
 
 
 
@@ -16,5 +16,5 @@ function onTextChange ( raw, editorState ) {
 
 
 render( (
-  <AntdEditor onChange={onTextChange} />
+  <RichEditor onChange={onTextChange} />
 ), document.getElementById( 'example' ) )

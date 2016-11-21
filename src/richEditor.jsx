@@ -2,28 +2,24 @@
 
 import _ from 'lodash';
 import React from 'react';
-import { Map } from 'Immutable';
-import { BlockStyleControls, getBlockClassName, blockRenderer } from './components/blockStyle';
-import { InlineStyleControls } from './components/inlineStyle';
-import { LinkControls } from './components/link';
+import {
+  BlockTypesControls,
+  blockClassName,
+  blockRenderer,
+  blockRenderMap
+} from './components/block-types';
+// import { InlineStyleControls } from './components/inlineStyle';
+// import { LinkControls } from './components/link';
 import decorator from './components/decorator';
-import customStyles from './customStyles';
+// import customStyles from './customStyles';
 import {
   Editor,
   EditorState,
   ContentState,
   RichUtils,
   convertFromRaw,
-  convertToRaw,
-  DefaultDraftBlockRenderMap
+  convertToRaw
 } from 'draft-js';
-
-
-const blockRenderMap = DefaultDraftBlockRenderMap.merge( Map( {
-  'text-align-left': {},
-  'text-align-center': {},
-  'text-align-right': {}
-} ) );
 
 
 // 工具栏配置
@@ -61,7 +57,15 @@ class RichEditor extends React.Component {
   };
 
 
-  componentDidMount () {
+  constructor ( props ) {
+    super( props );
+    this.state = {
+      editorState: null
+    };
+  }
+
+
+  componentWillMount () {
     this.setEditorState( this.props.value );
   }
 
@@ -71,7 +75,7 @@ class RichEditor extends React.Component {
   }
 
 
-  onChange = editorState => {
+  onChange = ( editorState ) => {
     this.setState( { editorState } );
     if ( this.props.onChange ) {
       this.props.onChange( convertToRaw( editorState.getCurrentContent() ), editorState );
@@ -127,34 +131,36 @@ class RichEditor extends React.Component {
     // either style the placeholder or hide it. Let's just hide it now.
     let className = 'RichEditor-editor';
     const contentState = editorState.getCurrentContent();
+
     if (
       contentState.hasText() ||
-      contentState.getBlockMap().first().getType() !== 'unstyled' ) {
+      contentState.getBlockMap().first().getType() !== 'unstyled'
+    ) {
       className += ' RichEditor-hidePlaceholder';
     }
 
     return (
       <div className="RichEditor-root">
-        <BlockStyleControls
+        <BlockTypesControls
           onToggle={this.onChange}
           editorState={editorState}
           styles={this.state.blockTypes} />
-        <InlineStyleControls
+        {/*<InlineStyleControls
           onToggle={this.onChange}
           editorState={editorState}
-          styles={this.state.inlineStyles} />
-        <LinkControls
+          styles={this.state.inlineStyles} />*/}
+        {/*<LinkControls
           onToggle={this.onChange}
-          editorState={editorState} />
+          editorState={editorState} />*/}
         <div className={className} onClick={this.focus}>
           <Editor
             ref="editor"
             onChange={this.onChange}
             editorState={editorState}
-            customStyleMap={customStyles}
+            // customStyleMap={customStyles}
             blockRenderMap={blockRenderMap}
             blockRendererFn={blockRenderer}
-            blockStyleFn={getBlockClassName}
+            blockStyleFn={blockClassName}
             placeholder={this.props.placeholder}
             handleKeyCommand={this.handleKeyCommand} />
         </div>
