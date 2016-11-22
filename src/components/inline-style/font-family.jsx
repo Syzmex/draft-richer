@@ -8,12 +8,12 @@ const
   MenuItem = Menu.Item,
 
   fontFamilyStyles = {
-    '宋体': { fontFamily: 'SimSun' },
-    '黑体': { fontFamily: 'SimHei' },
-    '仿宋': { fontFamily: 'FangSong_GB2312' },
-    '楷体': { fontFamily: 'KaiTi_GB2312' },
-    '隶书': { fontFamily: 'LiSu' },
-    '幼圆': { fontFamily: 'YouYuan' },
+    '宋体': { fontFamily: 'SimSun, STSong' },
+    '黑体': { fontFamily: 'SimHei, STHeiti' },
+    '仿宋': { fontFamily: 'FangSong_GB2312, FangSong, STFangsong, STFangsong' },
+    '楷体': { fontFamily: 'KaiTi_GB2312, KaiTi, STKaiti' },
+    '隶书': { fontFamily: 'LiSu, STLiti, Baoli SC, Libian SC' },
+    '幼圆': { fontFamily: 'YouYuan, Yuanti SC' },
     '微软雅黑': { fontFamily: 'Microsoft YaHei' },
     'Arial': { fontFamily: 'arial,helvetica,sans-serif' },
     'Comic Sans MS': { fontFamily: 'comic sans ms,cursive' },

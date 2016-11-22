@@ -2,6 +2,7 @@
 
 import _ from 'lodash';
 import React from 'react';
+import classNames from 'classnames';
 import {
   BlockTypesControls,
   blockClassName,
@@ -22,6 +23,7 @@ import {
   convertFromRaw,
   convertToRaw
 } from 'draft-js';
+import styles from './editor.less';
 
 
 // 工具栏配置
@@ -135,22 +137,22 @@ class RichEditor extends React.Component {
 
   render () {
 
-    const { editorState } = this.state;
+
 
     // If the user changes block type before entering any text, we can
     // either style the placeholder or hide it. Let's just hide it now.
-    let className = 'RichEditor-editor';
-    const contentState = editorState.getCurrentContent();
-
-    if (
-      contentState.hasText() ||
-      contentState.getBlockMap().first().getType() !== 'unstyled'
-    ) {
-      className += ' RichEditor-hidePlaceholder';
-    }
+    const
+      { editorState } = this.state,
+      contentState = editorState.getCurrentContent(),
+      className =  classNames( styles.editor, {
+        // [ styles.hidePlaceholder ]: (
+        //   contentState.hasText() ||
+        //   contentState.getBlockMap().first().getType() !== 'unstyled'
+        // )
+      } );
 
     return (
-      <div className="RichEditor-root">
+      <div className={styles.root}>
         <BlockTypesControls
           onToggle={this.onChange}
           editorState={editorState}
@@ -171,7 +173,7 @@ class RichEditor extends React.Component {
             blockRenderMap={blockRenderMap}
             blockRendererFn={blockRenderer}
             blockStyleFn={blockClassName}
-            placeholder={this.props.placeholder}
+            placeholder={'123123'}
             handleKeyCommand={this.handleKeyCommand} />
         </div>
       </div>

@@ -3,6 +3,7 @@
 import React from 'react';
 import { Popover } from 'antd';
 import Button from './button';
+import styles from './button-popover.less';
 
 
 class ButtonPopover extends React.Component {
@@ -54,6 +55,7 @@ class ButtonPopover extends React.Component {
     return (
       <Popover
         placement="top"
+        overlayClassName={styles.popover}
         visible={this.state.visible}
         content={this.props.children}
         onVisibleChange={this.handleVisibleChange}>
