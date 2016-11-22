@@ -149,45 +149,47 @@ backgroundColorStyles = Object.keys( colors ).reduce( ( styles, colorName ) => {
 }, {} );
 
 
-class Color extends React.Component {
+function Color ( props ) {
 
-
-  handleClick = ( key ) => {
-    this.props.onChange( { style: key } );
-  };
-
-
-  render () {
-    return (
-      <div>
-        {Object.keys( colors ).map( colorName => {
-          return (
-            <div key={colorName}>
-              {colors[ colorName ].list.map( ( rgb, index ) => {
-                const
-                  sType = this.props.type === 'color' ? 'color' : 'backgroundColor',
-                  typeColors = this.props.type === 'color' ? colorStyles : backgroundColorStyles,
-                  key = `${sType}#${colorName}#${index + 1}`;
-                return (
-                  <span
-                    key={key}
-                    className={styles.colorButton}
-                    title={`${colors[ colorName ].label}#${index + 1}`}
-                    style={{ backgroundColor: typeColors[ key ][ sType ] }}
-                    onMouseDown={e => {
-                      e.preventDefault();
-                      this.handleClick( key );
-                    }} />
-                );
-              } )}
-            </div>
-          );
-        } )}
-      </div>
-    );
+  function handleClick ( key ) {
+    props.onChange( key );
   }
 
+  return (
+    <div>
+      {Object.keys( colors ).map( colorName => {
+        return (
+          <div key={colorName}>
+            {colors[ colorName ].list.map( ( rgb, index ) => {
+              const
+                sType = props.type === 'color' ? 'color' : 'backgroundColor',
+                typeColors = props.type === 'color' ? colorStyles : backgroundColorStyles,
+                key = `${sType}#${colorName}#${index + 1}`;
+              return (
+                <span
+                  key={key}
+                  className={styles.colorButton}
+                  title={`${colors[ colorName ].label}#${index + 1}`}
+                  style={{ backgroundColor: typeColors[ key ][ sType ] }}
+                  onMouseDown={e => {
+                    e.preventDefault();
+                    handleClick( key );
+                  }} />
+              );
+            } )}
+          </div>
+        );
+      } )}
+    </div>
+  );
 }
+
+
+Color.propTypes = {
+  type: React.PropTypes.string,
+  select: React.PropTypes.string,
+  onChange: React.PropTypes.func
+};
 
 
 export default {

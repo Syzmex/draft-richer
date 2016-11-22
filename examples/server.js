@@ -10,7 +10,7 @@ import { RichEditor } from '../src/index';
 
 function onTextChange ( raw, editorState ) {
   if ( raw ) {
-    console.log( editorState.getCurrentContent().getPlainText() )
+    // console.log( editorState.getCurrentContent().getPlainText() )
   }
 };
 

@@ -2,24 +2,15 @@
 
 import React from 'react';
 import { Map } from 'Immutable';
-import { getBlockClassName, blockRenderer } from './components/blockStyle';
+import { getBlockClassName, blockRenderer } from './components/block-types';
 import decorator from './components/decorator';
-import customStyles from './customStyles';
 import {
   Editor,
   EditorState,
   convertFromRaw,
-  ContentState,
-  DefaultDraftBlockRenderMap
+  ContentState
 } from 'draft-js';
 
-
-
-const blockRenderMap = DefaultDraftBlockRenderMap.merge( Map( {
-  'text-align-left': {},
-  'text-align-center': {},
-  'text-align-right': {}
-} ) );
 
 class Article extends React.Component {
 

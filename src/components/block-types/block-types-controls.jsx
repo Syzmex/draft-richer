@@ -3,7 +3,7 @@
 import React from 'react';
 import { RichUtils, EditorState } from 'draft-js';
 import { blockTypes } from './block-types';
-import styles from './block-types.less';
+import styles from '../toolbar.less';
 
 
 // 块元素控制器
@@ -24,7 +24,6 @@ function BlockTypesControls ( props ) {
       );
     },
 
-
     // 激活状态判断
     isAvtive = ( blockType, type ) => {
       if ( Array.isArray( type ) ) {
@@ -38,15 +37,16 @@ function BlockTypesControls ( props ) {
     };
 
   return (
-    <div className={styles.wraper}>
-      {( Array.isArray( props.types ) ? props.types : Object.keys( blockTypes ) ).map( style => {
+    <div className={styles.wrapper}>
+      {( Array.isArray( props.types ) ? props.types : Object.keys( blockTypes ) ).map( key => {
         const
-          type = blockTypes[ style ],
-          Element = type.Element;
+          type = blockTypes[ key ],
+          Element = type.Element,
+          typeName = Array.isArray( type.type ) ? blockType : type.type
         return (
           <Element
-            key={style}
-            type={blockType}
+            key={key}
+            id={typeName}
             label={type.label}
             title={type.title}
             onToggle={handleToggle}

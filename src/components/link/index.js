@@ -1,6 +1,6 @@
 
 
-import LinkControls from './linkControls';
+import LinkControls from './link-controls';
 
 
 export default {

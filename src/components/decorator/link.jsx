@@ -2,7 +2,14 @@
 
 import React from 'react';
 import { Entity } from 'draft-js';
-import styles from './styles';
+
+
+const styles= {
+  link: {
+    color: '#3b5998',
+    textDecoration: 'underline'
+  }
+};
 
 
 export function findLinkEntities ( contentBlock, callback ) {

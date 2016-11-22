@@ -18,8 +18,8 @@ function Button ( props ) {
     // 点击回调函数
     handleMouseDown = function ( e ) {
       e.preventDefault();
-      if ( props.onToggle ) {
-        props.onToggle( props.type );
+      if ( !props.disabled && props.onToggle ) {
+        props.onToggle( props.id );
       }
     };
 
@@ -39,7 +39,7 @@ Button.propTypes = {
   disabled: React.PropTypes.bool,
   onToggle: React.PropTypes.func,
   title: React.PropTypes.string,
-  type: React.PropTypes.string.isRequired,
+  id: React.PropTypes.string,
   label: React.PropTypes.oneOfType( [
     React.PropTypes.string,
     React.PropTypes.element

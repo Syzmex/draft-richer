@@ -8,10 +8,12 @@ import {
   blockRenderer,
   blockRenderMap
 } from './components/block-types';
-// import { InlineStyleControls } from './components/inlineStyle';
-// import { LinkControls } from './components/link';
+import {
+  InlineStylesControls,
+  customStyles
+} from './components/inline-style';
+import { LinkControls } from './components/link';
 import decorator from './components/decorator';
-// import customStyles from './customStyles';
 import {
   Editor,
   EditorState,
@@ -24,6 +26,7 @@ import {
 
 // 工具栏配置
 const toolbar = {
+
   blockTypes: [
     'header',
     'code-block',
@@ -31,6 +34,7 @@ const toolbar = {
     'unordered-list-item',
     'ordered-list-item'
   ],
+
   inlineStyles: [
     'BOLD',
     'ITALIC',
@@ -41,6 +45,7 @@ const toolbar = {
     'FONTCOLOR',
     'FONTBACKGROUNTCOLOR'
   ]
+
 };
 
 
@@ -54,6 +59,11 @@ class RichEditor extends React.Component {
       React.PropTypes.func
     ] ),
     onChange: React.PropTypes.func
+  };
+
+
+  static defaultProps = {
+    value:''
   };
 
 
@@ -144,20 +154,20 @@ class RichEditor extends React.Component {
         <BlockTypesControls
           onToggle={this.onChange}
           editorState={editorState}
-          styles={this.state.blockTypes} />
-        {/*<InlineStyleControls
+          types={toolbar.blockTypes} />
+        <InlineStylesControls
           onToggle={this.onChange}
           editorState={editorState}
-          styles={this.state.inlineStyles} />*/}
-        {/*<LinkControls
+          styles={toolbar.inlineStyles} />
+        <LinkControls
           onToggle={this.onChange}
-          editorState={editorState} />*/}
+          editorState={editorState} />
         <div className={className} onClick={this.focus}>
           <Editor
             ref="editor"
             onChange={this.onChange}
             editorState={editorState}
-            // customStyleMap={customStyles}
+            customStyleMap={customStyles}
             blockRenderMap={blockRenderMap}
             blockRendererFn={blockRenderer}
             blockStyleFn={blockClassName}

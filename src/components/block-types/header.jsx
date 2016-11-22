@@ -20,14 +20,12 @@ const
 
 function Header ( props ) {
 
-
   function handleClick ( { key } ) {
     props.onChange( key );
   }
 
-
   return (
-    <Menu selectedKeys={[ props.key ]} onClick={onClick}>
+    <Menu selectedKeys={[ props.select ]} onClick={handleClick}>
       {Object.keys( headers ).map( name => {
         const Head = headers[ name ];
         return (
@@ -42,7 +40,7 @@ function Header ( props ) {
 
 
 Header.propTypes = {
-  key: React.PropTypes.string,
+  select: React.PropTypes.string,
   onChange: React.PropTypes.func
 };
 

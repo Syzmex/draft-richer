@@ -19,7 +19,7 @@ class ButtonPopover extends React.Component {
     ] ).isRequired,
 
     // block type
-    type: React.PropTypes.string.isRequired
+    id: React.PropTypes.string.isRequired
   };
 
 
@@ -58,7 +58,6 @@ class ButtonPopover extends React.Component {
         content={this.props.children}
         onVisibleChange={this.handleVisibleChange}>
         <Button
-          type={this.props.type}
           title={this.props.title}
           label={this.props.label}
           active={this.props.active}

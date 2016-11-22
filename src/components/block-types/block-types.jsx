@@ -6,7 +6,7 @@ import Icon from '../icons';
 import Header from './header';
 import Button from '../button';
 import ButtonPopover from '../button-popover';
-import styles from './block-types.less';
+import styles from '../toolbar.less';
 import { DefaultDraftBlockRenderMap } from 'draft-js';
 
 
@@ -35,35 +35,27 @@ export const blockTypes = {
 
   blockquote: {
     type: 'blockquote',
-    label: <Icon type="centerjustified" />,
+    label: <Icon type="blockquote" />,
     title: '引用',
-    Element: function ( props ) {
-      return <Button {...props} />
-    }
+    Element: Button
   },
   'unordered-list-item': {
     type: 'unordered-list-item',
     label: <Icon type="listalt" />,
     title: '无序列表',
-    Element: function ( props ) {
-      return <Button {...props} />
-    }
+    Element: Button
   },
   'ordered-list-item': {
     type: 'ordered-list-item',
     label: <Icon type="listol" />,
     title: '有序列表',
-    Element: function ( props ) {
-      return <Button {...props} />
-    }
+    Element: Button
   },
   'code-block': {
     type: 'code-block',
     label: <Icon type="script" />,
     title: '代码块',
-    Element: function ( props ) {
-      return <Button {...props} />
-    }
+    Element: Button
   },
 
   // 自定义
@@ -82,7 +74,7 @@ export const blockTypes = {
       return (
         <ButtonPopover {...props}>
           <Header
-            type={props.type}
+            select={props.id}
             onChange={props.onToggle} />
         </ButtonPopover>
       );

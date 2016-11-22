@@ -1,30 +1,30 @@
 
 
 import React from 'react';
-import { RichUtils, Entity } from 'draft-js';
-import StyleButton from '../styleButton';
-import { Modal, Form } from 'antd';
-import LinkModal from './linkModal';
+import ReactDOM from 'react-dom';
+import { RichUtils, Entity, EditorState } from 'draft-js';
+import Icon from '../icons';
+import Button from '../button';
+import LinkModal from './link-modal';
+import styles from '../toolbar.less';
 
 
 class LinkControls extends React.Component {
 
 
-  constructor ( props ) {
-    super( props );
-    this.state = {
-      visible: false
-    };
-  }
+  static propsTypes = {
+    onToggle: React.PropTypes.func.isRequired,
+    editorState: React.PropTypes.instanceOf( EditorState ).isRequired
+  };
 
 
-  onToggle = ( type, values ) => {
+  handleToggle = ( values ) => {
 
     const
       { editorState } = this.props,
       selection = editorState.getSelection();
 
-    if ( type === 'add' ) {
+    if ( values ) {
       const entityKey = Entity.create( 'LINK', 'MUTABLE', {
         url: values.http + values.url, target: values.target
       } );
@@ -38,32 +38,33 @@ class LinkControls extends React.Component {
   };
 
 
-  onOk = values => {
-    this.onToggle( 'add', values );
+  // 添加链接
+  handleOk = ( values ) => {
+    this.handleToggle( values );
   };
 
 
+  // 取消
+  handleCancel = ( values ) => {
+    this.toggleLinkOption( false );
+  };
+
+
+  // 弹出链接弹出层
   addLink = () => {
-
-    // 选中文字时可以弹出
-    if ( this.isNotCollapsed() ) {
-      this.toggleLinkOption( true )
-    }
+    this.toggleLinkOption( true )
   };
 
 
+  // 删除链接
   removeLink = () => {
-    // 没有选中文字不做任何动作
-    if ( this.isNotCollapsed() ) {
-      this.onToggle( 'remove' );
-    }
+    this.handleToggle();
   };
 
 
-  toggleLinkOption = open => {
-    this.setState( {
-      visible: open
-    } );
+  // 开关弹出层
+  toggleLinkOption = ( open ) => {
+    open ? this.openModal() : this.closeModal();
   };
 
 
@@ -85,10 +86,7 @@ class LinkControls extends React.Component {
         const entityKey = character.getEntity();
         return entityKey !== null && Entity.get( entityKey ).getType() === 'LINK';
       }, ( start, end ) => {
-        if (
-          ( startOffset <= start && start <= endOffset ) ||
-          ( startOffset <= end && end <= endOffset )
-        ) {
+        if ( startOffset < end && endOffset > start ) {
           hasLink = true;
         }
       } );
@@ -98,31 +96,50 @@ class LinkControls extends React.Component {
 
 
   isNotCollapsed = () => {
-    const selection = this.props.editorState.getSelection()
+    const selection = this.props.editorState.getSelection();
     return !selection.isCollapsed() && selection.getHasFocus();
-  }
+  };
+
+
+  openModal = () => {
+
+    if ( !this.container ) {
+      this.container = document.createElement( 'div' );
+      document.body.appendChild( this.container );
+    }
+
+    ReactDOM.render(
+      <LinkModal
+        onOk={this.handleOk}
+        onCancel={this.handleCancel} />,
+      this.container
+    );
+  };
+
+
+  closeModal = () => {
+    if ( this.container ) {
+      ReactDOM.unmountComponentAtNode( this.container );
+    }
+  };
 
 
   render () {
 
     return (
-      <div className="RichEditor-controls" style={this.props.style}>
-        <StyleButton
-          style="add"
+      <div className={styles.wrapper}>
+        <Button
+          id="add"
           title="添加链接"
           onToggle={this.addLink}
           disabled={!this.isNotCollapsed()}
-          label={<i className="iconfont icon-link" />} />
-        <StyleButton
-          style="remove"
+          label={<Icon type="link" />} />
+        <Button
+          id="remove"
           title="删除链接"
-          label={<i className="iconfont icon-unlink" />}
+          label={<Icon type="unlink" />}
           onToggle={this.removeLink}
           disabled={!( this.isNotCollapsed() && this.hasLink() )} />
-        <LinkModal
-          onOk={this.onOk}
-          visible={this.state.visible}
-          onCancel={() => this.toggleLinkOption( false )} />
       </div>
     );
   }
