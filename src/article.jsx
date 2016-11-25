@@ -1,15 +1,14 @@
 
 
 import React from 'react';
-import { Map } from 'Immutable';
-import { getBlockClassName, blockRenderer } from './components/block-types';
-import decorator from './components/decorator';
 import {
   Editor,
   EditorState,
   convertFromRaw,
   ContentState
 } from 'draft-js';
+import { getBlockClassName, blockRenderer } from './components/block-types';
+import decorator from './components/decorator';
 
 
 class Article extends React.Component {

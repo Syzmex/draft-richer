@@ -157,7 +157,7 @@ function Color ( props ) {
 
   return (
     <div>
-      {Object.keys( colors ).map( colorName => {
+      {Object.keys( colors ).map( ( colorName ) => {
         return (
           <div key={colorName}>
             {colors[ colorName ].list.map( ( rgb, index ) => {
@@ -171,7 +171,7 @@ function Color ( props ) {
                   className={styles.colorButton}
                   title={`${colors[ colorName ].label}#${index + 1}`}
                   style={{ backgroundColor: typeColors[ key ][ sType ] }}
-                  onMouseDown={e => {
+                  onMouseDown={( e ) => {
                     e.preventDefault();
                     handleClick( key );
                   }} />

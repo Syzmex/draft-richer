@@ -1,15 +1,15 @@
 
 
 import React from 'react';
-import { Map } from 'Immutable';
+// import { Map } from 'Immutable';
+import { DefaultDraftInlineStyle } from 'draft-js';
 import Icon from '../icons';
 import { FontSize } from './font-size';
 import { FontFamily } from './font-family';
 import { Color } from './color';
 import Button from '../button';
 import ButtonPopover from '../button-popover';
-// import styles from './block-types.less';
-import { DefaultDraftInlineStyle } from 'draft-js';
+
 
 
 export const inlineStyles = {
@@ -30,14 +30,14 @@ export const inlineStyles = {
     label: <Icon type="fontunderline" />,
     Element: Button
   },
-  CODE: {
-    title: '行内代码块',
-    label: 'Monospace',
-    Element: Button
-  },
   STRIKETHROUGH: {
     title: '删除线',
     label: <Icon type="fontstrikethrough" />,
+    Element: Button
+  },
+  CODE: {
+    title: '行内代码块',
+    label: 'Monospace',
     Element: Button
   },
 
@@ -95,5 +95,14 @@ export const inlineStyles = {
         </ButtonPopover>
       );
     }
+  }
+};
+
+
+export const customStyles = {
+  CODE: {
+    fontFamily: '"Inconsolata", "Menlo", "Consolas", monospace',
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    padding: 2
   }
 };

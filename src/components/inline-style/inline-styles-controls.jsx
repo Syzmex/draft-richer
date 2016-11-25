@@ -9,7 +9,7 @@ import { inlineStyles } from './inline-styles';
 import css from '../toolbar.less';
 
 
-function  InlineStylesControls ( props ) {
+function InlineStylesControls ( props ) {
 
   const
 
@@ -96,13 +96,11 @@ function  InlineStylesControls ( props ) {
       return currentStyle.has( style ) && selection.getHasFocus();
     },
 
-    styles = Array.isArray( props.styles )
-      ? props.styles
-      : Object.keys( inlineStyles );
+    styles = props.styles || Object.keys( inlineStyles );
 
   return (
     <div className={css.wrapper}>
-      {styles.map( key => {
+      {styles.map( ( key ) => {
         const
           style = inlineStyles[ key ],
           Element = style.Element;
@@ -122,7 +120,7 @@ function  InlineStylesControls ( props ) {
 
 
 InlineStylesControls.propTypes = {
-  styles: React.PropTypes.array,
+  styles: React.PropTypes.arrayOf( React.PropTypes.string ),
   onToggle: React.PropTypes.func.isRequired,
   editorState: React.PropTypes.instanceOf( EditorState ).isRequired
 };

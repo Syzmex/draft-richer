@@ -63,8 +63,8 @@ class ButtonPopover extends React.Component {
           title={this.props.title}
           label={this.props.label}
           active={this.props.active}
-          disabled={this.props.disabled}
-          onToggle={this.handleToggle} />
+          onToggle={this.handleToggle}
+          disabled={this.props.disabled} />
       </Popover>
     );
   }

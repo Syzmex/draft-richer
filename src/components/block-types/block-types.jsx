@@ -33,6 +33,28 @@ import { DefaultDraftBlockRenderMap } from 'draft-js';
 // 按钮配置
 export const blockTypes = {
 
+  // 自定义
+  header: {
+    type: [
+      'header-one',
+      'header-two',
+      'header-three',
+      'header-four',
+      'header-five',
+      'header-six'
+    ],
+    label: <Icon type="header" />,
+    title: '标题',
+    Element: function ( props ) {
+      return (
+        <ButtonPopover {...props}>
+          <Header
+            select={props.id}
+            onChange={props.onToggle} />
+        </ButtonPopover>
+      );
+    }
+  },
   blockquote: {
     type: 'blockquote',
     label: <Icon type="blockquote" />,
@@ -56,29 +78,6 @@ export const blockTypes = {
     label: <Icon type="script" />,
     title: '代码块',
     Element: Button
-  },
-
-  // 自定义
-  header: {
-    type: [
-      'header-one',
-      'header-two',
-      'header-three',
-      'header-four',
-      'header-five',
-      'header-six'
-    ],
-    label: <Icon type="header" />,
-    title: '标题',
-    Element: function ( props ) {
-      return (
-        <ButtonPopover {...props}>
-          <Header
-            select={props.id}
-            onChange={props.onToggle} />
-        </ButtonPopover>
-      );
-    }
   }
 };
 
@@ -97,7 +96,7 @@ export function blockClassName ( block ) {
     default:
       return null;
   }
-};
+}
 
 
 // blocktype 组件渲染函数
@@ -112,5 +111,5 @@ export function blockRenderer ( contentBlock ) {
   //     }
   //   };
   // }
-};
+}
 

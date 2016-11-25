@@ -32,7 +32,7 @@ function getDecoratedStyle ( mutability ) {
 
 export function getTokenStrategy ( mutability ) {
   return function ( contentBlock, callback ) {
-    contentBlock.findEntityRanges( character => {
+    contentBlock.findEntityRanges( ( character ) => {
       const
         entityKey = character.getEntity(),
         entity = entityKey && Entity.get( entityKey );
@@ -46,7 +46,7 @@ export function getTokenStrategy ( mutability ) {
 }
 
 
-export const TokenSpan = props => {
+export const TokenSpan = ( props ) => {
 
   const style = getDecoratedStyle(
     Entity.get( props.entityKey ).getMutability()

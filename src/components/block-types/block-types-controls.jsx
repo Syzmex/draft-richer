@@ -38,7 +38,7 @@ function BlockTypesControls ( props ) {
 
   return (
     <div className={styles.wrapper}>
-      {( Array.isArray( props.types ) ? props.types : Object.keys( blockTypes ) ).map( key => {
+      {( props.types || Object.keys( blockTypes ) ).map( ( key ) => {
         const
           type = blockTypes[ key ],
           Element = type.Element,
@@ -59,7 +59,7 @@ function BlockTypesControls ( props ) {
 
 
 BlockTypesControls.propTypes = {
-  types: React.PropTypes.array,
+  types: React.PropTypes.arrayOf( React.PropTypes.string ),
   onToggle: React.PropTypes.func.isRequired,
   editorState: React.PropTypes.instanceOf( EditorState ).isRequired
 };

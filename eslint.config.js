@@ -2,7 +2,8 @@ module.exports = {
   rules: {
     'brace-style': [ 1, 'stroustrup', { allowSingleLine: true } ],
     'comma-spacing': [ 2, { before: false, after: true } ],
-    indent: [ 0, 2, { VariableDeclarator: 0 } ],
+    'indent': [ 0, 2, { VariableDeclarator: 0 } ],
+    'jsx-a11y/no-static-element-interactions': 0,
     'one-var-declaration-per-line': 0,
     'space-before-function-paren': 0,
     'comma-dangle': [ 2, 'never' ],
@@ -18,6 +19,7 @@ module.exports = {
     'object-shorthand': 0,
     'space-in-parens': 0,
     'padded-blocks': 0,
+    'quote-props': 0,
     'func-names': 0,
     'no-console': 0,
     'no-shadow': 0,
@@ -26,7 +28,7 @@ module.exports = {
     'new-cap': 0,
     'no-var': 0,
     'max-len': 1,
-    'react/prop-types': 0,
+    'react/no-unused-prop-types': 0,
     'react/no-did-mount-set-state': 0,
     'react/prefer-stateless-function': 0,
     'react/jsx-closing-bracket-location': [ 1, {
