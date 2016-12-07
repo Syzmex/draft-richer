@@ -1,6 +1,6 @@
 {
   "name": "draft-richer",
-  "description": "基于脸谱的 draft-js 的 React 编辑器",
+  "description": "基于facebook的 draft-js 的 React 编辑器",
   "version": "0.1.0",
   "keywords": [
     "draftjs",
@@ -8,6 +8,9 @@
     "editor",
     "react",
     "richtext"
+  ],
+  "files": [
+    "lib"
   ],
   "homepage": "https://xutou12.github.io/draft-richer",
   "bugs": "https://github.com/xutou12/draft-richer/issues",
