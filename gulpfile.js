@@ -27,8 +27,6 @@ var webpackStream = require('webpack-stream');
 var fbjsConfigurePreset = require('babel-preset-fbjs/configure');
 var gulpCheckDependencies = require('fbjs-scripts/gulp/check-dependencies');
 
-// var moduleMap = require('./scripts/module-map');
-
 var paths = {
   dist: 'dist',
   lib: 'lib',
@@ -45,11 +43,21 @@ var paths = {
 
 var babelOptsJS = {
   presets: [
-    fbjsConfigurePreset({
-      stripDEV: true,
-      rewriteModules: {},
-    }),
+    require.resolve('babel-preset-es2015-ie'),
+    require.resolve('babel-preset-react'),
+    require.resolve('babel-preset-stage-0')
   ],
+  plugins: [
+    require.resolve('babel-plugin-add-module-exports'),
+    require.resolve('babel-plugin-transform-decorators-legacy'),
+    'lodash',
+    'dev-expression',
+    'transform-runtime',
+    [ 'import', [ {
+      libraryName: 'antd',
+      style: true
+    } ] ]
+  ]
 };
 
 var babelOptsFlow = {
@@ -61,17 +69,7 @@ var babelOptsFlow = {
   ],
 };
 
-var COPYRIGHT_HEADER = `/**
- * Draft v<%= version %>
- *
- * Copyright (c) 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-`;
+var COPYRIGHT_HEADER = ``;
 
 var buildDist = function(opts) {
   var webpackOpts = {
@@ -125,14 +123,14 @@ gulp.task('modules', ['styles'], function() {
   return gulp
     .src(paths.src)
     .pipe(babel(babelOptsJS))
-    .pipe(flatten())
+    // .pipe(flatten())
     .pipe(gulp.dest(paths.lib));
 });
 
 gulp.task('styles', function() {
   return gulp
     .src(paths.css)
-    .pipe(flatten())
+    // .pipe(flatten())
     .pipe(gulp.dest(paths.lib));
 });
 
@@ -140,9 +138,9 @@ gulp.task('styles', function() {
 gulp.task('dist', ['modules'], function() {
   var opts = {
     debug: true,
-    output: 'Draft.js',
+    output: 'index.js',
   };
-  return gulp.src('./lib/Draft.js')
+  return gulp.src('./lib/index.js')
     .pipe(buildDist(opts))
     .pipe(derequire())
     .pipe(header(COPYRIGHT_HEADER, {version: packageData.version}))
@@ -152,9 +150,9 @@ gulp.task('dist', ['modules'], function() {
 gulp.task('dist:min', ['modules'], function() {
   var opts = {
     debug: false,
-    output: 'Draft.min.js',
+    output: 'index.min.js',
   };
-  return gulp.src('./lib/Draft.js')
+  return gulp.src('./lib/index.js')
     .pipe(buildDist(opts))
     .pipe(header(COPYRIGHT_HEADER, {version: packageData.version}))
     .pipe(gulp.dest(paths.dist));
@@ -170,5 +168,5 @@ gulp.task('dev', function() {
 });
 
 gulp.task('default', function(cb) {
-  runSequence('clean', 'modules', ['dist', 'dist:min'], cb);
+  runSequence('clean', 'modules', ['dist'], cb);
 });

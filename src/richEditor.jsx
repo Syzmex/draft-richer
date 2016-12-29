@@ -32,7 +32,7 @@ class RichEditor extends React.Component {
     value: React.PropTypes.oneOfType( [
       React.PropTypes.string,
       React.PropTypes.number,
-      React.PropTypes.func
+      React.PropTypes.object
     ] ),
     onChange: React.PropTypes.func,
     placeholder: React.PropTypes.string,
