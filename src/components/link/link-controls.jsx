@@ -120,6 +120,8 @@ class LinkControls extends React.Component {
   closeModal = () => {
     if ( this.container ) {
       ReactDOM.unmountComponentAtNode( this.container );
+      document.body.removeChild( this.container );
+      this.container = null;
     }
   };
 
