@@ -38,8 +38,8 @@ Button.propTypes = {
   active: React.PropTypes.bool,
   title: React.PropTypes.string,
   disabled: React.PropTypes.bool,
-  onToggle: React.PropTypes.func.isRequired,
-  id: React.PropTypes.string.isRequired,
+  onToggle: React.PropTypes.func,
+  id: React.PropTypes.string,
   label: React.PropTypes.oneOfType( [
     React.PropTypes.string,
     React.PropTypes.element

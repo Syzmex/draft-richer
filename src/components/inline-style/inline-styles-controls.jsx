@@ -99,7 +99,7 @@ function InlineStylesControls ( props ) {
     styles = props.styles || Object.keys( inlineStyles );
 
   return (
-    <div className={`${prefixCls}-wrapper`}>
+    <div className={`${prefixCls}-toolbar`}>
       {styles.map( ( key ) => {
         const
           style = inlineStyles[ key ],

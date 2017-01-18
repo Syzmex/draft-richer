@@ -55,9 +55,9 @@ class ButtonPopover extends React.Component {
     return (
       <Popover
         placement="top"
-        overlayClassName={`${prefixCls}-popover`}
         visible={this.state.visible}
         content={this.props.children}
+        overlayClassName={`${prefixCls}-popover`}
         onVisibleChange={this.handleVisibleChange}>
         <Button
           title={this.props.title}

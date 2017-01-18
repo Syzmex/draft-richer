@@ -37,12 +37,12 @@ function BlockTypesControls ( props ) {
     };
 
   return (
-    <div className={`${prefixCls}-wrapper`}>
+    <div className={`${prefixCls}-toolbar`}>
       {( props.types || Object.keys( blockTypes ) ).map( ( key ) => {
         const
           type = blockTypes[ key ],
           Element = type.Element,
-          typeName = Array.isArray( type.type ) ? blockType : type.type
+          typeName = Array.isArray( type.type ) ? blockType : type.type;
         return (
           <Element
             key={key}

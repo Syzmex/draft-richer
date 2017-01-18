@@ -127,7 +127,7 @@ class LinkControls extends React.Component {
   render () {
 
     return (
-      <div className={`${prefixCls}-wrapper`}>
+      <div className={`${prefixCls}-toolbar`}>
         <Button
           id="add"
           title="添加链接"
