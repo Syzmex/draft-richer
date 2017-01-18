@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import styles from './icons.css';
+import styles from './icons.less';
 
 
 function Icon ( props ) {

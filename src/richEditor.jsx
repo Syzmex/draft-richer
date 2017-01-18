@@ -63,7 +63,9 @@ class RichEditor extends React.Component {
 
 
   componentWillReceiveProps ( nextProps ) {
-    this.setEditorState( nextProps.value );
+    if ( nextProps.value ) {
+      this.setEditorState( nextProps.value );
+    }
   }
 
 
@@ -75,7 +77,7 @@ class RichEditor extends React.Component {
   };
 
 
-  setEditorState ( value ) {
+  setEditorState ( value = '' ) {
 
     let contentState;
 
@@ -84,7 +86,7 @@ class RichEditor extends React.Component {
       contentState = convertFromRaw( value );
     }
 
-    else {
+    else if ( value ) {
       contentState = ContentState.createFromText( `${value}` );
     }
 
