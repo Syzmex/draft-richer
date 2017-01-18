@@ -26,11 +26,11 @@ function Header ( props ) {
 
   return (
     <Menu selectedKeys={[ props.select ]} onClick={handleClick}>
-      {Object.keys( headers ).map( name => {
+      {Object.keys( headers ).map( ( name ) => {
         const Head = headers[ name ];
         return (
           <MenuItem key={name}>
-             <Head>Header</Head>
+            <Head>Header</Head>
           </MenuItem>
         );
       } )}

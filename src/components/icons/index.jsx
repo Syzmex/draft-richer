@@ -1,12 +1,12 @@
 
 
 import React from 'react';
-import styles from './icons.less';
+import { prefixCls } from '../../config';
 
 
 function Icon ( props ) {
-  return <i className={`${styles.iconfont} ${styles[ `icon-${props.type}` ]}`} />
-};
+  return <i className={`${prefixCls}-iconfont icon-${props.type}`} />
+}
 
 
 Icon.propTypes = {

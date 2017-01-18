@@ -1,10 +1,11 @@
 
 
-import './index.html';
-import './index.css';
+
 import React from 'react';
 import { render } from 'react-dom';
 import { RichEditor } from '../src/index';
+import './index.html';
+import './index.less';
 
 
 // 工具栏配置

@@ -1,7 +1,7 @@
 
 
 import React from 'react';
-import styles from './color.less';
+import { prefixCls } from '../../config';
 
 
 const colors = {
@@ -168,7 +168,7 @@ function Color ( props ) {
               return (
                 <span
                   key={key}
-                  className={styles.colorButton}
+                  className={`${prefixCls}-color-button`}
                   title={`${colors[ colorName ].label}#${index + 1}`}
                   style={{ backgroundColor: typeColors[ key ][ sType ] }}
                   onMouseDown={( e ) => {

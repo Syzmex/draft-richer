@@ -10,6 +10,7 @@ import {
   convertFromRaw,
   convertToRaw
 } from 'draft-js';
+import { prefixCls } from './config';
 import {
   BlockTypesControls,
   blockClassName,
@@ -22,7 +23,6 @@ import {
 } from './components/inline-style';
 import { LinkControls } from './components/link';
 import decorator from './components/decorator';
-import styles from './editor.less';
 
 
 class RichEditor extends React.Component {
@@ -125,7 +125,7 @@ class RichEditor extends React.Component {
       { blockTypes, inlineStyles, entity } = toolbar;
 
     return (
-      <div className={styles.root}>
+      <div className={`${prefixCls}-root`}>
         {blockTypes ? (
           <BlockTypesControls
             types={blockTypes}
@@ -143,7 +143,7 @@ class RichEditor extends React.Component {
             editorState={editorState}
             onToggle={this.handleChange} />
         ) : null}
-        <div className={styles.editor} onClick={this.focus}>
+        <div className={`${prefixCls}-editor`} onClick={this.focus}>
           <Editor
             editorState={editorState}
             placeholder={placeholder}

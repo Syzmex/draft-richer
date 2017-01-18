@@ -6,7 +6,7 @@ import { colorStyles, backgroundColorStyles } from './color';
 import { fontFamilyStyles } from './font-family';
 import { fontSizeStyles } from './font-size';
 import { inlineStyles } from './inline-styles';
-import css from '../toolbar.less';
+import { prefixCls } from '../../config';
 
 
 function InlineStylesControls ( props ) {
@@ -99,7 +99,7 @@ function InlineStylesControls ( props ) {
     styles = props.styles || Object.keys( inlineStyles );
 
   return (
-    <div className={css.wrapper}>
+    <div className={`${prefixCls}-wrapper`}>
       {styles.map( ( key ) => {
         const
           style = inlineStyles[ key ],

@@ -1,13 +1,13 @@
 
 
 import React from 'react';
-import { Map } from 'Immutable';
+import { Map } from 'immutable';
+import { DefaultDraftBlockRenderMap } from 'draft-js';
 import Icon from '../icons';
 import Header from './header';
 import Button from '../button';
 import ButtonPopover from '../button-popover';
-import styles from '../toolbar.less';
-import { DefaultDraftBlockRenderMap } from 'draft-js';
+import { prefixCls } from '../../config';
 
 
 /**
@@ -92,7 +92,7 @@ export const blockRenderMap = DefaultDraftBlockRenderMap.merge( Map( {
 export function blockClassName ( block ) {
   switch ( block.getType() ) {
     case 'blockquote':
-      return styles.blockquote;
+      return `${prefixCls}-blockquote`;
     default:
       return null;
   }

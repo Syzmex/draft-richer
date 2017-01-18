@@ -2,7 +2,7 @@
 
 import React from 'react';
 import classNames from 'classnames';
-import styles from './button.less';
+import { prefixCls } from '../config';
 
 
 function Button ( props ) {
@@ -10,9 +10,9 @@ function Button ( props ) {
   const
 
     // 样式组合
-    className = classNames( styles.button, {
-      [ styles.active ]: props.active,
-      [ styles.disabled ]: props.disabled
+    className = classNames( `${prefixCls}-button`, {
+      active: props.active,
+      disabled: props.disabled
     } ),
 
     // 点击回调函数
@@ -36,10 +36,10 @@ function Button ( props ) {
 
 Button.propTypes = {
   active: React.PropTypes.bool,
-  disabled: React.PropTypes.bool,
-  onToggle: React.PropTypes.func,
   title: React.PropTypes.string,
-  id: React.PropTypes.string,
+  disabled: React.PropTypes.bool,
+  onToggle: React.PropTypes.func.isRequired,
+  id: React.PropTypes.string.isRequired,
   label: React.PropTypes.oneOfType( [
     React.PropTypes.string,
     React.PropTypes.element

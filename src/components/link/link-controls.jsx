@@ -6,7 +6,7 @@ import { RichUtils, Entity, EditorState } from 'draft-js';
 import Icon from '../icons';
 import Button from '../button';
 import LinkModal from './link-modal';
-import styles from '../toolbar.less';
+import { prefixCls } from '../../config';
 
 
 class LinkControls extends React.Component {
@@ -82,7 +82,7 @@ class LinkControls extends React.Component {
         .getBlockForKey( selection.getStartKey() );
 
       // 寻找实体 LINK， 非异步回调
-      block.findEntityRanges( character => {
+      block.findEntityRanges( ( character ) => {
         const entityKey = character.getEntity();
         return entityKey !== null && Entity.get( entityKey ).getType() === 'LINK';
       }, ( start, end ) => {
@@ -127,7 +127,7 @@ class LinkControls extends React.Component {
   render () {
 
     return (
-      <div className={styles.wrapper}>
+      <div className={`${prefixCls}-wrapper`}>
         <Button
           id="add"
           title="添加链接"

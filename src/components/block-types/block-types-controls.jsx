@@ -3,7 +3,7 @@
 import React from 'react';
 import { RichUtils, EditorState } from 'draft-js';
 import { blockTypes } from './block-types';
-import styles from '../toolbar.less';
+import { prefixCls } from '../../config';
 
 
 // 块元素控制器
@@ -37,7 +37,7 @@ function BlockTypesControls ( props ) {
     };
 
   return (
-    <div className={styles.wrapper}>
+    <div className={`${prefixCls}-wrapper`}>
       {( props.types || Object.keys( blockTypes ) ).map( ( key ) => {
         const
           type = blockTypes[ key ],
