@@ -73,7 +73,7 @@
   },
   "scripts": {
     "start": "dora --plugins \"proxy,webpack,webpack-hmr\"",
-    "build": "rimraf lib && babel src --out-dir lib",
+    "build": "rimraf lib && babel src --out-dir lib --copy-files",
     "test": "atool-test-mocha ./src/**/*-test.js"
   }
 }
