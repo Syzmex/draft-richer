@@ -1,5 +1,12 @@
 dist
-node_modules
-lib
-.svn
 .DS_Store
+npm-debug.log*
+.svn
+/lib
+/node_modules
+/.nyc_output
+/test/**/dist
+
+# tnpm cache directory
+/test/**/.cache
+

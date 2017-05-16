@@ -23,15 +23,15 @@ class Article extends React.Component {
 
 
   static propsTypes = {
-    content: React.PropTypes.oneOfType( [
+    content: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.number,
       React.PropTypes.object
-    ] )
+    ])
   };
 
 
-  constructor ( props ) {
+  constructor( props ) {
     super( props );
     this.state = {
       editorState: this.setEditorState( props.content )
@@ -39,16 +39,14 @@ class Article extends React.Component {
   }
 
 
-  setEditorState ( value ) {
+  setEditorState( value ) {
 
     let contentState;
 
     // 接收的是 RAW
-    if ( _.isObject( value ) ) {
+    if ( _.isObject( value )) {
       contentState = convertFromRaw( value );
-    }
-
-    else {
+    } else {
       contentState = ContentState.createFromText( `${value}` );
     }
 
@@ -60,7 +58,7 @@ class Article extends React.Component {
   }
 
 
-  render () {
+  render() {
 
     if ( this.props.content !== undefined ) {
 

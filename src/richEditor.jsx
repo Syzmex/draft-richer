@@ -29,18 +29,18 @@ class RichEditor extends React.Component {
 
 
   static propTypes = {
-    value: React.PropTypes.oneOfType( [
+    value: React.PropTypes.oneOfType([
       React.PropTypes.string,
       React.PropTypes.number,
       React.PropTypes.object
-    ] ),
+    ]),
     onChange: React.PropTypes.func,
     placeholder: React.PropTypes.string,
-    toolbar: React.PropTypes.shape( {
+    toolbar: React.PropTypes.shape({
       blockTypes: React.PropTypes.arrayOf( React.PropTypes.string ),
       inlineStyles: React.PropTypes.arrayOf( React.PropTypes.string ),
       entity: React.PropTypes.arrayOf( React.PropTypes.string )
-    } )
+    })
   };
 
 
@@ -49,7 +49,7 @@ class RichEditor extends React.Component {
   };
 
 
-  constructor ( props ) {
+  constructor( props ) {
     super( props );
     this.state = {
       editorState: null
@@ -57,12 +57,12 @@ class RichEditor extends React.Component {
   }
 
 
-  componentWillMount () {
+  componentWillMount() {
     this.setEditorState( this.props.value );
   }
 
 
-  componentWillReceiveProps ( nextProps ) {
+  componentWillReceiveProps( nextProps ) {
     if ( nextProps.value ) {
       this.setEditorState( nextProps.value );
     }
@@ -70,32 +70,30 @@ class RichEditor extends React.Component {
 
 
   handleChange = ( editorState ) => {
-    this.setState( { editorState } );
+    this.setState({ editorState });
     if ( this.props.onChange ) {
-      this.props.onChange( convertToRaw( editorState.getCurrentContent() ), editorState );
+      this.props.onChange( convertToRaw( editorState.getCurrentContent()), editorState );
     }
   };
 
 
-  setEditorState ( value = '' ) {
+  setEditorState( value = '' ) {
 
     let contentState;
 
     // 接收的是 RAW
-    if ( _.isObject( value ) ) {
+    if ( _.isObject( value )) {
       contentState = convertFromRaw( value );
-    }
-
-    else if ( value ) {
+    } else if ( value ) {
       contentState = ContentState.createFromText( `${value}` );
     }
 
 
-    this.setState( {
+    this.setState({
       editorState: contentState
         ? EditorState.createWithContent( contentState, decorator )
         : EditorState.createEmpty( decorator )
-    } );
+    });
 
   }
 
@@ -117,7 +115,7 @@ class RichEditor extends React.Component {
   };
 
 
-  render () {
+  render() {
 
     const
       { editorState } = this.state,

@@ -1,7 +1,7 @@
 {
   "name": "draft-richer",
   "description": "基于facebook的 draft-js 的 React 编辑器",
-  "version": "0.1.13",
+  "version": "0.1.14",
   "keywords": [
     "draftjs",
     "draftricher",
@@ -10,7 +10,8 @@
     "richtext"
   ],
   "files": [
-    "lib"
+    "lib",
+    "src"
   ],
   "homepage": "https://xutou12.github.io/draft-richer",
   "bugs": "https://github.com/xutou12/draft-richer/issues",
@@ -21,7 +22,7 @@
   "repository": "xutou12/draft-richer",
   "license": "MIT",
   "dependencies": {
-    "antd": "^2.4.2",
+    "antd": "^2.7.0",
     "classnames": "^2.2.5",
     "draft-js": "^0.9.0",
     "immutable": "^3.8.1",
@@ -52,11 +53,11 @@
     "dora-plugin-webpack-hmr": "^0.2.1",
     "eslint": "^3.10.2",
     "eslint-config-airbnb": "^13.0.0",
+    "eslint-config-promise": "^1.1.3",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^2.2.3",
     "eslint-plugin-react": "^6.7.1",
     "expect": "^1.20.2",
-    "fbjs-scripts": "^0.7.1",
     "gulp-clean-css": "^2.3.2",
     "gulp-concat-css": "^2.3.0",
     "gulp-derequire": "^2.1.0",
@@ -72,7 +73,7 @@
   },
   "scripts": {
     "start": "dora --plugins \"proxy,webpack,webpack-hmr\"",
-    "build": "atool-build",
+    "build": "rimraf lib && babel src --out-dir lib",
     "test": "atool-test-mocha ./src/**/*-test.js"
   }
 }
