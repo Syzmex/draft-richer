@@ -1,7 +1,9 @@
 
 
-import _ from 'lodash';
 import React from 'react';
+import PropTypes from 'prop-types';
+import classNames from 'classnames';
+import isPlainObject from 'is-plain-object';
 import {
   Editor,
   EditorState,
@@ -27,47 +29,43 @@ import decorator from './components/decorator';
 
 class RichEditor extends React.Component {
 
-
   static propTypes = {
-    value: React.PropTypes.oneOfType([
-      React.PropTypes.string,
-      React.PropTypes.number,
-      React.PropTypes.object
+    value: PropTypes.object, // eslint-disable-line
+    defaultValue: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number,
+      PropTypes.object
     ]),
-    onChange: React.PropTypes.func,
-    placeholder: React.PropTypes.string,
-    toolbar: React.PropTypes.shape({
-      blockTypes: React.PropTypes.arrayOf( React.PropTypes.string ),
-      inlineStyles: React.PropTypes.arrayOf( React.PropTypes.string ),
-      entity: React.PropTypes.arrayOf( React.PropTypes.string )
+    onChange: PropTypes.func,
+    placeholder: PropTypes.string,
+    toolbar: PropTypes.shape({
+      blockTypes: PropTypes.arrayOf( PropTypes.string ),
+      inlineStyles: PropTypes.arrayOf( PropTypes.string ),
+      entity: PropTypes.arrayOf( PropTypes.string )
     })
   };
 
-
-  static defaultProps = {
-    value: ''
+  state = {
+    editorState: null
   };
 
-
-  constructor( props ) {
-    super( props );
-    this.state = {
-      editorState: null
-    };
-  }
-
-
   componentWillMount() {
-    this.setEditorState( this.props.value );
-  }
-
-
-  componentWillReceiveProps( nextProps ) {
-    if ( nextProps.value ) {
-      this.setEditorState( nextProps.value );
+    if ( this.props.value instanceof EditorState ) {
+      this.setState({ editorState: this.props.value });
+    } else if ( this.props.defaultValue ) {
+      this.setEditorState( this.props.defaultValue );
+    } else {
+      this.setEditorState( '' );
     }
   }
 
+  componentWillReceiveProps( nextProps ) {
+    if ( nextProps.value ) {
+      this.setState({ editorState: this.props.value });
+    } else if ( !this.props.defaultValue && nextProps.defaultValue ) {
+      this.setEditorState( nextProps.defaultValue );
+    }
+  }
 
   handleChange = ( editorState ) => {
     this.setState({ editorState });
@@ -76,37 +74,9 @@ class RichEditor extends React.Component {
     }
   };
 
-
-  setEditorState( value = '' ) {
-
-    let contentState;
-
-    // 接收的是 RAW
-    if ( _.isObject( value )) {
-      contentState = convertFromRaw( value );
-    } else if ( value ) {
-      contentState = ContentState.createFromText( `${value}` );
-    }
-
-
-    this.setState({
-      editorState: contentState
-        ? EditorState.createWithContent( contentState, decorator )
-        : EditorState.createEmpty( decorator )
-    });
-
-  }
-
-
-  focus = () => {
-    // this.refs.editor.focus();
-  };
-
-
   handleKeyCommand = ( command ) => {
-    const
-      { editorState } = this.state,
-      nextState = RichUtils.handleKeyCommand( editorState, command );
+    const { editorState } = this.state;
+    const nextState = RichUtils.handleKeyCommand( editorState, command );
     if ( nextState ) {
       this.handleChange( nextState );
       return true;
@@ -114,16 +84,37 @@ class RichEditor extends React.Component {
     return false;
   };
 
+  setEditorState( value = '' ) {
+
+    let contentState;
+
+    // 接收的是 RAW
+    if ( isPlainObject( value )) {
+      contentState = convertFromRaw( value );
+    } else if ( value ) {
+      contentState = ContentState.createFromText( `${value}` );
+    }
+
+    const editorState = contentState
+      ? EditorState.createWithContent( contentState, decorator )
+      : EditorState.createEmpty( decorator );
+
+    this.setState({ editorState });
+  }
+
+  focus = () => {
+    // this.refs.editor.focus();
+  };
 
   render() {
 
-    const
-      { editorState } = this.state,
-      { placeholder, toolbar } = this.props,
-      { blockTypes, inlineStyles, entity } = toolbar;
+    const { editorState } = this.state;
+    const { placeholder, toolbar, className, style } = this.props;
+    const { blockTypes, inlineStyles, entity } = toolbar;
+    const clsnames = classNames( `${prefixCls}-root`, className );
 
     return (
-      <div className={`${prefixCls}-root`}>
+      <div className={clsnames} style={style}>
         {blockTypes ? (
           <BlockTypesControls
             types={blockTypes}

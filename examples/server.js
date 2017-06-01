@@ -1,6 +1,5 @@
 
 
-
 import React from 'react';
 import { render } from 'react-dom';
 import { RichEditor } from '../src/index';
@@ -37,15 +36,15 @@ const toolbar = {
 };
 
 
-function onTextChange ( raw, editorState ) {
+function onTextChange( raw, editorState ) {
   if ( raw ) {
     // console.log( editorState.getCurrentContent().getPlainText() )
   }
 }
 
 
-render( (
+render((
   <RichEditor
     toolbar={toolbar}
     onChange={onTextChange} />
-), document.getElementById( 'example' ) )
+), document.getElementById( 'example' ));
