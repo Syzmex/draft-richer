@@ -50,9 +50,7 @@ class RichEditor extends React.Component {
   };
 
   componentWillMount() {
-    if ( this.props.value instanceof EditorState ) {
-      this.setState({ editorState: this.props.value });
-    } else if ( this.props.defaultValue ) {
+    if ( this.props.defaultValue ) {
       this.setEditorState( this.props.defaultValue );
     } else {
       this.setEditorState( '' );
@@ -60,9 +58,10 @@ class RichEditor extends React.Component {
   }
 
   componentWillReceiveProps( nextProps ) {
-    if ( nextProps.value ) {
-      this.setState({ editorState: this.props.value });
-    } else if ( !this.props.defaultValue && nextProps.defaultValue ) {
+    if (
+      nextProps.defaultValue instanceof EditorState ||
+      ( !this.props.defaultValue && nextProps.defaultValue )
+    ) {
       this.setEditorState( nextProps.defaultValue );
     }
   }
@@ -87,6 +86,12 @@ class RichEditor extends React.Component {
   setEditorState( value = '' ) {
 
     let contentState;
+
+    // 接收的是 EditorState
+    if ( value instanceof EditorState ) {
+      this.setState({ editorState: value });
+      return;
+    }
 
     // 接收的是 RAW
     if ( isPlainObject( value )) {

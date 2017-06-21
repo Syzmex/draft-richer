@@ -5,6 +5,8 @@
     "stage-0"
   ],
   "plugins": [
+    "lodash",
+    "transform-decorators-legacy",
     "add-module-exports",
     [ "import", { "libraryName": "antd", "style": true }]
   ]

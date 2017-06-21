@@ -36,15 +36,33 @@ const toolbar = {
 };
 
 
-function onTextChange( raw, editorState ) {
-  if ( raw ) {
-    // console.log( editorState.getCurrentContent().getPlainText() )
+class TestWrap extends React.Component {
+
+  state = {
+    value: ''
+  };
+
+  componentDidMount() {
+    // setTimeout(() => {
+    //   this.setState({ value: '123123' });
+    // }, 1000 );
+  }
+
+  handleChange = ( raw, editorState ) => {
+    this.setState({ value: editorState });
+    if ( raw ) {
+      // console.log( editorState.getCurrentContent().getPlainText() )
+    }
+  };
+
+  render() {
+    return (
+      <RichEditor
+        toolbar={toolbar}
+        onChange={this.handleChange}
+        defaultValue={this.state.value} />
+    );
   }
 }
 
-
-render((
-  <RichEditor
-    toolbar={toolbar}
-    onChange={onTextChange} />
-), document.getElementById( 'example' ));
+render( <TestWrap />, document.getElementById( 'example' ));
