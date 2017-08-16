@@ -4,39 +4,35 @@ import React from 'react';
 import { Modal, Form, Input, Select } from 'antd';
 
 
-const
-  FormItem = Form.Item,
-  Option = Select.Option;
+const FormItem = Form.Item;
+const Option = Select.Option;
 
-function LinkModal ( props ) {
+function LinkModal( props ) {
 
-
-  function handleOk () {
-    props.form.validateFields( ( errors, values ) => {
+  function handleOk() {
+    props.form.validateFields(( errors, values ) => {
       if ( !errors ) {
         props.onOk( values );
       }
-    } );
+    });
   }
 
-  const
+  const { getFieldDecorator } = props.form;
 
-    { getFieldDecorator } = props.form,
+  const formItemLayout = {
+    labelCol: { span: 6 },
+    wrapperCol: { span: 14 }
+  };
 
-    formItemLayout = {
-      labelCol: { span: 6 },
-      wrapperCol: { span: 14 }
-    },
-
-    selectBefore = getFieldDecorator( 'http', {
-      initialValue: 'http://'
-    } )(
-      <Select style={{ width: 80 }}>
-        <Option value="http://">http://</Option>
-        <Option value="https://">https://</Option>
-        <Option value="ftp://">ftp://</Option>
-        <Option value="<other>">other</Option>
-      </Select>
+  const selectBefore = getFieldDecorator( 'http', {
+    initialValue: 'http://'
+  })(
+    <Select style={{ width: 80 }}>
+      <Option value="http://">http://</Option>
+      <Option value="https://">https://</Option>
+      <Option value="ftp://">ftp://</Option>
+      <Option value="<other>">other</Option>
+    </Select>
     );
 
   return (

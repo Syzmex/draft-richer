@@ -45,7 +45,7 @@ export const blockTypes = {
     ],
     label: <Icon type="header" />,
     title: '标题',
-    Element: function ( props ) {
+    Element( props ) {
       return (
         <ButtonPopover {...props}>
           <Header
@@ -82,15 +82,15 @@ export const blockTypes = {
 };
 
 
-export const blockRenderMap = DefaultDraftBlockRenderMap.merge( Map( {
+export const blockRenderMap = DefaultDraftBlockRenderMap.merge( Map({
 
   // 这里添加自定义的 blocktype
-} ) );
+}));
 
 
 // 设置 blocktype 的样式
-export function blockClassName ( block ) {
-  switch ( block.getType() ) {
+export function blockClassName( block ) {
+  switch ( block.getType()) {
     case 'blockquote':
       return `${prefixCls}-blockquote`;
     default:
@@ -100,7 +100,7 @@ export function blockClassName ( block ) {
 
 
 // blocktype 组件渲染函数
-export function blockRenderer ( contentBlock ) {
+export function blockRenderer( contentBlock ) {
   // const type = contentBlock.getType();
   // if ( type === 'atomic' ) {
   //   return {

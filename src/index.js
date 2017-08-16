@@ -2,8 +2,8 @@
 
 import RichEditor from './richEditor';
 import Article from './article';
-import './Draft.less';
-import './editor.less';
+import './style/Draft.less';
+import './style/editor.less';
 
 
 export default {

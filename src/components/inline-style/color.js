@@ -1,6 +1,7 @@
 
 
 import React from 'react';
+// import PropTypes from 'prop-types';
 import { prefixCls } from '../../config';
 
 
@@ -131,36 +132,36 @@ const colors = {
       'rgba(3, 18, 19, 1.0)'
     ]
   }
-},
+};
 
-colorStyles = Object.keys( colors ).reduce( ( styles, colorName ) => {
-  colors[ colorName ].list.forEach( ( rgb, index ) => {
-    styles[ `color#${colorName}#${index + 1}` ] = { color: rgb };
-  } );
+const colorStyles = Object.keys( colors ).reduce(( styles, colorName ) => {
+  colors[colorName].list.forEach(( rgb, index ) => {
+    styles[`color#${colorName}#${index + 1}`] = { color: rgb };
+  });
   return styles;
-}, {} ),
+}, {});
 
 
-backgroundColorStyles = Object.keys( colors ).reduce( ( styles, colorName ) => {
-  colors[ colorName ].list.forEach( ( rgb, index ) => {
-    styles[ `backgroundColor#${colorName}#${index + 1}` ] = { backgroundColor: rgb };
-  } );
+const backgroundColorStyles = Object.keys( colors ).reduce(( styles, colorName ) => {
+  colors[colorName].list.forEach(( rgb, index ) => {
+    styles[`backgroundColor#${colorName}#${index + 1}`] = { backgroundColor: rgb };
+  });
   return styles;
-}, {} );
+}, {});
 
 
-function Color ( props ) {
+function Color( props ) {
 
-  function handleClick ( key ) {
+  function handleClick( key ) {
     props.onChange( key );
   }
 
   return (
     <div>
-      {Object.keys( colors ).map( ( colorName ) => {
+      {Object.keys( colors ).map(( colorName ) => {
         return (
           <div key={colorName}>
-            {colors[ colorName ].list.map( ( rgb, index ) => {
+            {colors[colorName].list.map(( rgb, index ) => {
               const
                 sType = props.type === 'color' ? 'color' : 'backgroundColor',
                 typeColors = props.type === 'color' ? colorStyles : backgroundColorStyles,
@@ -169,27 +170,27 @@ function Color ( props ) {
                 <span
                   key={key}
                   className={`${prefixCls}-color-button`}
-                  title={`${colors[ colorName ].label}#${index + 1}`}
-                  style={{ backgroundColor: typeColors[ key ][ sType ] }}
+                  title={`${colors[colorName].label}#${index + 1}`}
+                  style={{ backgroundColor: typeColors[key][sType] }}
                   onMouseDown={( e ) => {
                     e.preventDefault();
                     handleClick( key );
                   }} />
               );
-            } )}
+            })}
           </div>
         );
-      } )}
+      })}
     </div>
   );
 }
 
 
-Color.propTypes = {
-  type: React.PropTypes.string,
-  select: React.PropTypes.string,
-  onChange: React.PropTypes.func
-};
+// Color.propTypes = {
+//   type: PropTypes.string,
+//   select: PropTypes.string,
+//   onChange: PropTypes.func
+// };
 
 
 export default {

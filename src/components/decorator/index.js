@@ -5,7 +5,7 @@ import { TokenSpan, getTokenStrategy } from './token';
 import { Link, findLinkEntities } from './link';
 
 
-export default new CompositeDecorator( [ {
+export default new CompositeDecorator([{
   strategy: getTokenStrategy( 'IMMUTABLE' ),
   component: TokenSpan
 }, {
@@ -17,4 +17,4 @@ export default new CompositeDecorator( [ {
 }, {
   strategy: findLinkEntities,
   component: Link
-} ] );
+}]);

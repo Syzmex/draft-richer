@@ -3,8 +3,6 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { RichEditor } from '../src/index';
-import './index.html';
-import './index.less';
 
 
 // 工具栏配置
@@ -57,12 +55,14 @@ class TestWrap extends React.Component {
 
   render() {
     return (
-      <RichEditor
-        toolbar={toolbar}
-        onChange={this.handleChange}
-        defaultValue={this.state.value} />
+      <div>
+        <RichEditor
+          toolbar={toolbar}
+          onChange={this.handleChange}
+          defaultValue={this.state.value} />
+      </div>
     );
   }
 }
 
-render( <TestWrap />, document.getElementById( 'example' ));
+render( <TestWrap />, document.getElementById( 'root' ));

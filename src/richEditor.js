@@ -1,31 +1,20 @@
 
 
 import React from 'react';
+import omit from 'omit.js';
+import itis from 'whatitis';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import isPlainObject from 'is-plain-object';
-import {
-  Editor,
-  EditorState,
-  ContentState,
-  RichUtils,
-  convertFromRaw,
-  convertToRaw
-} from 'draft-js';
-import { prefixCls } from './config';
-import {
-  BlockTypesControls,
-  blockClassName,
-  blockRenderer,
-  blockRenderMap
-} from './components/block-types';
-import {
-  InlineStylesControls,
-  customStyles
-} from './components/inline-style';
+import { Editor, EditorState, ContentState, RichUtils, convertFromRaw, convertToRaw } from 'draft-js';
+import { BlockTypesControls, blockClassName, blockRenderer, blockRenderMap } from './components/block-types';
+import { InlineStylesControls, customStyles } from './components/inline-style';
 import { LinkControls } from './components/link';
 import decorator from './components/decorator';
+import { prefixCls } from './config';
 
+
+const isEditorState = itis.isItClass( EditorState );
 
 class RichEditor extends React.Component {
 
@@ -59,7 +48,7 @@ class RichEditor extends React.Component {
 
   componentWillReceiveProps( nextProps ) {
     if (
-      nextProps.defaultValue instanceof EditorState ||
+      isEditorState( nextProps.defaultValue ) ||
       ( !this.props.defaultValue && nextProps.defaultValue )
     ) {
       this.setEditorState( nextProps.defaultValue );
@@ -114,12 +103,14 @@ class RichEditor extends React.Component {
   render() {
 
     const { editorState } = this.state;
-    const { placeholder, toolbar, className, style } = this.props;
+    const { placeholder, toolbar, className } = this.props;
     const { blockTypes, inlineStyles, entity } = toolbar;
     const clsnames = classNames( `${prefixCls}-root`, className );
-
+    const props = omit( this.props, [
+      'value', 'defaultValue', 'onChange', 'placeholder', 'toolbar', 'className'
+    ]);
     return (
-      <div className={clsnames} style={style}>
+      <div className={clsnames} {...props}>
         {blockTypes ? (
           <BlockTypesControls
             types={blockTypes}

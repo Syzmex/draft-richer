@@ -20,19 +20,17 @@ class LinkControls extends React.Component {
 
   handleToggle = ( values ) => {
 
-    const
-      { editorState } = this.props,
-      selection = editorState.getSelection();
+    const { editorState } = this.props;
+    const selection = editorState.getSelection();
 
     if ( values ) {
       const entityKey = Entity.create( 'LINK', 'MUTABLE', {
         url: values.http + values.url, target: values.target
-      } );
-      this.props.onToggle( RichUtils.toggleLink( editorState, selection, entityKey ) );
+      });
+      this.props.onToggle( RichUtils.toggleLink( editorState, selection, entityKey ));
       this.toggleLinkOption( false );
-    }
-    else {
-      this.props.onToggle( RichUtils.toggleLink( editorState, selection, null ) );
+    } else {
+      this.props.onToggle( RichUtils.toggleLink( editorState, selection, null ));
     }
 
   };
@@ -52,7 +50,7 @@ class LinkControls extends React.Component {
 
   // 弹出链接弹出层
   addLink = () => {
-    this.toggleLinkOption( true )
+    this.toggleLinkOption( true );
   };
 
 
@@ -68,30 +66,29 @@ class LinkControls extends React.Component {
   };
 
 
-  hasLink () {
+  hasLink() {
 
     let hasLink = false;
 
-    const
-      { editorState } = this.props,
-      selection = editorState.getSelection(),
-      startOffset = selection.getStartOffset(),
-      endOffset = selection.getEndOffset(),
-      block = editorState
+    const { editorState } = this.props;
+    const selection = editorState.getSelection();
+    const startOffset = selection.getStartOffset();
+    const endOffset = selection.getEndOffset();
+    const block = editorState
         .getCurrentContent()
-        .getBlockForKey( selection.getStartKey() );
+        .getBlockForKey( selection.getStartKey());
 
       // 寻找实体 LINK， 非异步回调
-      block.findEntityRanges( ( character ) => {
-        const entityKey = character.getEntity();
-        return entityKey !== null && Entity.get( entityKey ).getType() === 'LINK';
-      }, ( start, end ) => {
-        if ( startOffset < end && endOffset > start ) {
-          hasLink = true;
-        }
-      } );
+    block.findEntityRanges(( character ) => {
+      const entityKey = character.getEntity();
+      return entityKey !== null && Entity.get( entityKey ).getType() === 'LINK';
+    }, ( start, end ) => {
+      if ( startOffset < end && endOffset > start ) {
+        hasLink = true;
+      }
+    });
 
-      return hasLink;
+    return hasLink;
   }
 
 
@@ -126,7 +123,7 @@ class LinkControls extends React.Component {
   };
 
 
-  render () {
+  render() {
 
     return (
       <div className={`${prefixCls}-toolbar`}>
@@ -141,7 +138,7 @@ class LinkControls extends React.Component {
           title="删除链接"
           label={<Icon type="unlink" />}
           onToggle={this.removeLink}
-          disabled={!( this.isNotCollapsed() && this.hasLink() )} />
+          disabled={!( this.isNotCollapsed() && this.hasLink())} />
       </div>
     );
   }

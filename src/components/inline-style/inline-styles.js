@@ -2,14 +2,13 @@
 
 import React from 'react';
 // import { Map } from 'Immutable';
-import { DefaultDraftInlineStyle } from 'draft-js';
+// import { DefaultDraftInlineStyle } from 'draft-js';
 import Icon from '../icons';
 import { FontSize } from './font-size';
 import { FontFamily } from './font-family';
 import { Color } from './color';
 import Button from '../button';
 import ButtonPopover from '../button-popover';
-
 
 
 export const inlineStyles = {
@@ -45,7 +44,7 @@ export const inlineStyles = {
   FONTFAMILY: {
     title: '字体',
     label: <Icon type="font" />,
-    Element: function ( props ) {
+    Element( props ) {
       return (
         <ButtonPopover {...props}>
           <FontFamily
@@ -58,7 +57,7 @@ export const inlineStyles = {
   FONTSIZE: {
     title: '字体大小',
     label: <Icon type="fontsize" />,
-    Element: function ( props ) {
+    Element( props ) {
       return (
         <ButtonPopover {...props}>
           <FontSize
@@ -71,7 +70,7 @@ export const inlineStyles = {
   FONTCOLOR: {
     label: <Icon type="fontcolormerge" />,
     title: '字体颜色',
-    Element: function ( props ) {
+    Element( props ) {
       return (
         <ButtonPopover {...props}>
           <Color
@@ -85,7 +84,7 @@ export const inlineStyles = {
   FONTBACKGROUNTCOLOR: {
     label: <Icon type="fontbackground" />,
     title: '字体背景色',
-    Element: function ( props ) {
+    Element( props ) {
       return (
         <ButtonPopover {...props}>
           <Color

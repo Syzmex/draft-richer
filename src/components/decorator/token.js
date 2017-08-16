@@ -20,7 +20,7 @@ const styles = {
 };
 
 
-function getDecoratedStyle ( mutability ) {
+function getDecoratedStyle( mutability ) {
   switch ( mutability ) {
     case 'IMMUTABLE': return styles.immutable;
     case 'MUTABLE': return styles.mutable;
@@ -30,12 +30,11 @@ function getDecoratedStyle ( mutability ) {
 }
 
 
-export function getTokenStrategy ( mutability ) {
-  return function ( contentBlock, callback ) {
-    contentBlock.findEntityRanges( ( character ) => {
-      const
-        entityKey = character.getEntity(),
-        entity = entityKey && Entity.get( entityKey );
+export function getTokenStrategy( mutability ) {
+  return function( contentBlock, callback ) {
+    contentBlock.findEntityRanges(( character ) => {
+      const entityKey = character.getEntity();
+      const entity = entityKey && Entity.get( entityKey );
       return (
         entity &&
         entity.getType() === 'TOKEN' &&
