@@ -5,25 +5,48 @@ import omit from 'omit.js';
 import itis from 'whatitis';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import isPlainObject from 'is-plain-object';
-import { Editor, EditorState, ContentState, RichUtils, convertFromRaw, convertToRaw } from 'draft-js';
+import { Editor, EditorState, RichUtils } from 'draft-js';
 import { BlockTypesControls, blockClassName, blockRenderer, blockRenderMap } from './components/block-types';
 import { InlineStylesControls, customStyles } from './components/inline-style';
 import { LinkControls } from './components/link';
-import decorator from './components/decorator';
+import { createEditorState } from './utils';
 import { prefixCls } from './config';
 
 
-const isEditorState = itis.isItClass( EditorState );
+const defaultToolbar = {
+  blockTypes: [
+    'header',
+    'code-block',
+    'blockquote',
+    'unordered-list-item',
+    'ordered-list-item'
+  ],
+  inlineStyles: [
+    'BOLD',
+    'ITALIC',
+    'UNDERLINE',
+    'STRIKETHROUGH',
+    'FONTFAMILY',
+    'FONTSIZE',
+    'FONTCOLOR',
+    'FONTBACKGROUNTCOLOR'
+  ],
+  entity: [
+    'link'
+  ]
+};
+
+const isES = itis.isItClass( EditorState );
 
 class RichEditor extends React.Component {
 
   static propTypes = {
-    value: PropTypes.object, // eslint-disable-line
+    value: PropTypes.instanceOf( EditorState ),
     defaultValue: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
-      PropTypes.object
+      PropTypes.object,
+      PropTypes.instanceOf( EditorState )
     ]),
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
@@ -39,26 +62,31 @@ class RichEditor extends React.Component {
   };
 
   componentWillMount() {
-    if ( this.props.defaultValue ) {
-      this.setEditorState( this.props.defaultValue );
+    const { value, defaultValue } = this.props;
+    if ( isES( value )) {
+      this.setEditorState( value );
+    } else if ( defaultValue ) {
+      this.setEditorState( defaultValue );
     } else {
       this.setEditorState( '' );
     }
   }
 
   componentWillReceiveProps( nextProps ) {
-    if (
-      isEditorState( nextProps.defaultValue ) ||
-      ( !this.props.defaultValue && nextProps.defaultValue )
-    ) {
+    if ( isES( nextProps.value )) {
+      this.setEditorState( nextProps.value );
+    } else if ( isES( nextProps.defaultValue )) {
+      this.setEditorState( nextProps.defaultValue );
+    } else if ( !this.props.defaultValue && nextProps.defaultValue ) {
       this.setEditorState( nextProps.defaultValue );
     }
   }
 
   handleChange = ( editorState ) => {
-    this.setState({ editorState });
     if ( this.props.onChange ) {
-      this.props.onChange( convertToRaw( editorState.getCurrentContent()), editorState );
+      this.props.onChange( editorState );
+    } else {
+      this.setState({ editorState });
     }
   };
 
@@ -72,28 +100,8 @@ class RichEditor extends React.Component {
     return false;
   };
 
-  setEditorState( value = '' ) {
-
-    let contentState;
-
-    // 接收的是 EditorState
-    if ( value instanceof EditorState ) {
-      this.setState({ editorState: value });
-      return;
-    }
-
-    // 接收的是 RAW
-    if ( isPlainObject( value )) {
-      contentState = convertFromRaw( value );
-    } else if ( value ) {
-      contentState = ContentState.createFromText( `${value}` );
-    }
-
-    const editorState = contentState
-      ? EditorState.createWithContent( contentState, decorator )
-      : EditorState.createEmpty( decorator );
-
-    this.setState({ editorState });
+  setEditorState( content ) {
+    this.state.editorState = createEditorState( content );
   }
 
   focus = () => {
@@ -103,7 +111,7 @@ class RichEditor extends React.Component {
   render() {
 
     const { editorState } = this.state;
-    const { placeholder, toolbar, className } = this.props;
+    const { placeholder, toolbar = defaultToolbar, className } = this.props;
     const { blockTypes, inlineStyles, entity } = toolbar;
     const clsnames = classNames( `${prefixCls}-root`, className );
     const props = omit( this.props, [
@@ -111,23 +119,33 @@ class RichEditor extends React.Component {
     ]);
     return (
       <div className={clsnames} {...props}>
-        {blockTypes ? (
-          <BlockTypesControls
-            types={blockTypes}
-            editorState={editorState}
-            onToggle={this.handleChange} />
-        ) : null}
-        {inlineStyles ? (
-          <InlineStylesControls
-            styles={inlineStyles}
-            editorState={editorState}
-            onToggle={this.handleChange} />
-        ) : null}
-        {entity && entity.includes( 'link' ) ? (
-          <LinkControls
-            editorState={editorState}
-            onToggle={this.handleChange} />
-        ) : null}
+        {Object.keys( toolbar ).map(( key ) => {
+          if ( key === 'blockTypes' ) {
+            return blockTypes && blockTypes.length ? (
+              <BlockTypesControls
+                key="blockTypes"
+                types={blockTypes}
+                editorState={editorState}
+                onToggle={this.handleChange} />
+            ) : null;
+          } else if ( key === 'inlineStyles' ) {
+            return inlineStyles && inlineStyles.length ? (
+              <InlineStylesControls
+                key="inlineStyles"
+                styles={inlineStyles}
+                editorState={editorState}
+                onToggle={this.handleChange} />
+            ) : null;
+          } else if ( key === 'entity' ) {
+            return entity && entity.includes( 'link' ) ? (
+              <LinkControls
+                key="link"
+                editorState={editorState}
+                onToggle={this.handleChange} />
+            ) : null;
+          }
+          return null;
+        }).filter(( elem ) => elem )}
         <div className={`${prefixCls}-editor`} onClick={this.focus}>
           <Editor
             editorState={editorState}
@@ -144,6 +162,4 @@ class RichEditor extends React.Component {
   }
 }
 
-
 export default RichEditor;
-

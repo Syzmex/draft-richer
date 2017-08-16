@@ -2,6 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 import { RichUtils, Entity, EditorState } from 'draft-js';
 import Icon from '../icons';
 import Button from '../button';
@@ -13,8 +14,8 @@ class LinkControls extends React.Component {
 
 
   static propsTypes = {
-    onToggle: React.PropTypes.func.isRequired,
-    editorState: React.PropTypes.instanceOf( EditorState ).isRequired
+    onToggle: PropTypes.func.isRequired,
+    editorState: PropTypes.instanceOf( EditorState ).isRequired
   };
 
 

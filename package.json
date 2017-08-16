@@ -1,7 +1,7 @@
 {
   "name": "draft-richer",
   "description": "基于facebook的 draft-js 的 React 编辑器",
-  "version": "0.1.20",
+  "version": "0.2.0",
   "keywords": [
     "draftjs",
     "draftricher",
@@ -24,7 +24,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "draft-js": "^0.10.1",
-    "is-plain-object": "^2.0.1",
+    "invariant": "^2.2.2",
     "omit.js": "^1.0.0",
     "whatitis": "^1.1.0"
   },

@@ -4,27 +4,30 @@
 
 
 .@{prefixCls}-root {
-  padding: 20px;
-  width: 600px;
   border: 1px solid #ddd;
   font-family: PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans;
   font-size: 14px;
-  padding: 10px;
+  padding: 15px;
+  .@{prefixCls}-editor {
+    cursor: text;
+    border-top: 1px solid #ddd;
+    .public-DraftEditorPlaceholder-root,
+    .public-DraftEditor-content {
+      padding-top: 15px;
+    }
+    .public-DraftEditor-content {
+      min-height: 100px;
+    }
+  }
 }
 
 
-.@{prefixCls}-editor {
-  cursor: text;
+.@{prefixCls}-editor,
+.@{prefixCls}-article {
   font-size: 16px;
   margin-top: 6px;
-  border-top: 1px solid #ddd;
-  .public-DraftEditorPlaceholder-root,
-  .public-DraftEditor-content {
-    margin: 0 -15px -15px;
-    padding: 15px;
-  }
-  .public-DraftEditor-content {
-    min-height: 100px;
+  .DraftEditor-editorContainer {
+    border-left: 0;
   }
   .public-DraftStyleDefault-pre {
     background-color: rgba(0, 0, 0, 0.05);

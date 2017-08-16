@@ -1,6 +1,7 @@
 
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { RichUtils, EditorState } from 'draft-js';
 import { blockTypes } from './block-types';
 import { prefixCls } from '../../config';
@@ -59,9 +60,9 @@ function BlockTypesControls ( props ) {
 
 
 BlockTypesControls.propTypes = {
-  types: React.PropTypes.arrayOf( React.PropTypes.string ),
-  onToggle: React.PropTypes.func.isRequired,
-  editorState: React.PropTypes.instanceOf( EditorState ).isRequired
+  types: PropTypes.arrayOf( PropTypes.string ),
+  onToggle: PropTypes.func.isRequired,
+  editorState: PropTypes.instanceOf( EditorState ).isRequired
 };
 
 

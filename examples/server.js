@@ -2,39 +2,39 @@
 
 import React from 'react';
 import { render } from 'react-dom';
-import { RichEditor } from '../src/index';
+import { RichEditor, Article } from '../src/index';
 
 
 // 工具栏配置
-const toolbar = {
+// const toolbar = {
 
-  blockTypes: [
-    'header',
-    'code-block',
-    'blockquote',
-    'unordered-list-item',
-    'ordered-list-item'
-  ],
+//   blockTypes: [
+//     'header',
+//     'code-block',
+//     'blockquote',
+//     'unordered-list-item',
+//     'ordered-list-item'
+//   ],
 
-  inlineStyles: [
-    'BOLD',
-    'ITALIC',
-    'UNDERLINE',
-    'STRIKETHROUGH',
-    'FONTFAMILY',
-    'FONTSIZE',
-    'FONTCOLOR',
-    'FONTBACKGROUNTCOLOR'
-  ],
+//   inlineStyles: [
+//     'BOLD',
+//     'ITALIC',
+//     'UNDERLINE',
+//     'STRIKETHROUGH',
+//     'FONTFAMILY',
+//     'FONTSIZE',
+//     'FONTCOLOR',
+//     'FONTBACKGROUNTCOLOR'
+//   ],
 
-  entity: [
-    'link'
-  ]
+//   entity: [
+//     'link'
+//   ]
 
-};
+// };
 
 
-class TestWrap extends React.Component {
+class Test extends React.Component {
 
   state = {
     value: ''
@@ -46,23 +46,28 @@ class TestWrap extends React.Component {
     // }, 1000 );
   }
 
-  handleChange = ( raw, editorState ) => {
+  handleChange = ( editorState ) => {
     this.setState({ value: editorState });
-    if ( raw ) {
-      // console.log( editorState.getCurrentContent().getPlainText() )
-    }
   };
 
   render() {
     return (
       <div>
+        <h2>Editor Example</h2>
         <RichEditor
-          toolbar={toolbar}
+          // toolbar={{}}
+          // placeholder="asdasd"
           onChange={this.handleChange}
-          defaultValue={this.state.value} />
+          defaultValue={this.state.value}
+          style={{ width: 800 }} />
+        <br />
+        <br />
+        <br />
+        <h2>Article Example</h2>
+        <Article content="asdasdas" />
       </div>
     );
   }
 }
 
-render( <TestWrap />, document.getElementById( 'root' ));
+render( <Test />, document.getElementById( 'root' ));
