@@ -3,25 +3,27 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Editor } from 'draft-js';
-import { blockClassName, blockRenderer, blockRenderMap } from './components/block-types';
+import { blockClassName, articleBlockRenderer, blockRenderMap } from './components/block-types';
 import { customStyles } from './components/inline-style';
-import { createEditorState } from './utils';
+import { createArticleState } from './utils';
 import { prefixCls } from './config';
 
 
-function Article({ content, className, ...props }) {
+function Article({ content, className, fileurl, ...props }) {
 
-  const editorState = createEditorState( content );
+  const editorState = createArticleState( content, true );
   const clsnames = classNames( `${prefixCls}-article`, className );
+  const blockPorps = { fileurl };
 
   return (
     <div className={clsnames} {...props}>
       <Editor
         readOnly
+        tabIndex="-1"
         editorState={editorState}
         customStyleMap={customStyles}
         blockRenderMap={blockRenderMap}
-        blockRendererFn={blockRenderer}
+        blockRendererFn={articleBlockRenderer( blockPorps )}
         blockStyleFn={blockClassName} />
     </div>
   );

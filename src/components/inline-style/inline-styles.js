@@ -83,7 +83,7 @@ export const inlineStyles = {
   },
   FONTBACKGROUNTCOLOR: {
     label: <Icon type="fontbackground" />,
-    title: '字体背景色',
+    title: '字体高亮',
     Element( props ) {
       return (
         <ButtonPopover {...props}>

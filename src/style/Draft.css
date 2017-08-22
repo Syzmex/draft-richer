@@ -1,5 +1,5 @@
 /**
- * Draft v0.9.0
+ * Draft v0.10.1
  *
  * Copyright (c) 2013-present, Facebook, Inc.
  * All rights reserved.
@@ -8,7 +8,6 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  */
-
 
 .DraftEditor-editorContainer,
 .DraftEditor-root,
@@ -25,11 +24,21 @@
   position: relative
 }
 
+/**
+ * Zero-opacity background used to allow focus in IE. Otherwise, clicks
+ * fall through to the placeholder.
+ */
 .DraftEditor-editorContainer {
   background-color: rgba(255, 255, 255, 0);
+  /* Repair mysterious missing Safari cursor */
   border-left: .1px solid transparent;
   position: relative;
   z-index: 1
+}
+
+.public-DraftEditor-content {
+  outline: none;
+  white-space: pre-wrap;
 }
 
 .public-DraftEditor-block {
@@ -64,10 +73,13 @@
   text-align: right
 }
 
+/**
+ * @providesModule DraftEditorPlaceholder
+ */
 .public-DraftEditorPlaceholder-root {
   color: #9197a3;
   position: absolute;
-  z-index: 0
+  z-index: 1
 }
 
 .public-DraftEditorPlaceholder-hasFocus {
@@ -78,34 +90,56 @@
   display: none
 }
 
+/**
+ * @providesModule DraftStyleDefault
+ */
 .public-DraftStyleDefault-block {
   position: relative;
   white-space: pre-wrap
 }
 
+/* @noflip */
 .public-DraftStyleDefault-ltr {
   direction: ltr;
   text-align: left
 }
 
+/* @noflip */
 .public-DraftStyleDefault-rtl {
   direction: rtl;
   text-align: right
 }
 
+/**
+ * These rules provide appropriate text direction for counter pseudo-elements.
+ */
+
+/* @noflip */
 .public-DraftStyleDefault-listLTR {
   direction: ltr
 }
 
+/* @noflip */
 .public-DraftStyleDefault-listRTL {
   direction: rtl
 }
+
+/**
+ * Default spacing for list container elements. Override with CSS as needed.
+ */
 
 .public-DraftStyleDefault-ol,
 .public-DraftStyleDefault-ul {
   margin: 16px 0;
   padding: 0
 }
+
+/**
+ * Default counters and styles are provided for five levels of nesting.
+ * If you require nesting beyond that level, you should use your own CSS
+ * classes to do so. If you care about handling RTL languages, the rules you
+ * create should look a lot like these.
+ */
 
 .public-DraftStyleDefault-depth0.public-DraftStyleDefault-listLTR {
   margin-left: 1.5em
@@ -147,6 +181,10 @@
   margin-right: 7.5em
 }
 
+/**
+ * Only use `square` list-style after the first two levels.
+ */
+
 .public-DraftStyleDefault-unorderedListItem {
   list-style-type: square;
   position: relative
@@ -159,6 +197,11 @@
 .public-DraftStyleDefault-unorderedListItem.public-DraftStyleDefault-depth1 {
   list-style-type: circle
 }
+
+/**
+ * Ordered list item counters are managed with CSS, since all list nesting is
+ * purely visual.
+ */
 
 .public-DraftStyleDefault-orderedListItem {
   list-style-type: none;
@@ -178,6 +221,12 @@
   text-align: left;
   width: 30px
 }
+
+/**
+ * Counters are reset in JavaScript. If you need different counter styles,
+ * override these rules. If you need more nesting, create your own rules to
+ * do so.
+ */
 
 .public-DraftStyleDefault-orderedListItem:before {
   content: counter(ol0) ". ";

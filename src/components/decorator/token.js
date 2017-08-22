@@ -1,7 +1,5 @@
 
-
 import React from 'react';
-import { Entity } from 'draft-js';
 
 
 const styles = {
@@ -19,7 +17,6 @@ const styles = {
   }
 };
 
-
 function getDecoratedStyle( mutability ) {
   switch ( mutability ) {
     case 'IMMUTABLE': return styles.immutable;
@@ -29,12 +26,11 @@ function getDecoratedStyle( mutability ) {
   }
 }
 
-
 export function getTokenStrategy( mutability ) {
-  return function( contentBlock, callback ) {
+  return function( contentBlock, callback, contentState ) {
     contentBlock.findEntityRanges(( character ) => {
       const entityKey = character.getEntity();
-      const entity = entityKey && Entity.get( entityKey );
+      const entity = entityKey && contentState.getEntity( entityKey );
       return (
         entity &&
         entity.getType() === 'TOKEN' &&
@@ -44,18 +40,15 @@ export function getTokenStrategy( mutability ) {
   };
 }
 
-
-export const TokenSpan = ( props ) => {
+export const TokenSpan = ({ entityKey, contentState, children }) => {
 
   const style = getDecoratedStyle(
-    Entity.get( props.entityKey ).getMutability()
+    contentState.getEntity( entityKey ).getMutability()
   );
 
   return (
-    <span {...props} style={style}>
-      {props.children}
+    <span style={style}>
+      {children}
     </span>
   );
-
 };
-

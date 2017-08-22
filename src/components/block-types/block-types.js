@@ -6,6 +6,7 @@ import { DefaultDraftBlockRenderMap } from 'draft-js';
 import Icon from '../icons';
 import Header from './header';
 import Button from '../button';
+import { EditorAtomic, ArticleAtomic } from './atomic';
 import ButtonPopover from '../button-popover';
 import { prefixCls } from '../../config';
 
@@ -83,8 +84,9 @@ export const blockTypes = {
 
 
 export const blockRenderMap = DefaultDraftBlockRenderMap.merge( Map({
-
-  // 这里添加自定义的 blocktype
+  'code-block': {
+    element: 'pre'
+  }
 }));
 
 
@@ -93,6 +95,8 @@ export function blockClassName( block ) {
   switch ( block.getType()) {
     case 'blockquote':
       return `${prefixCls}-blockquote`;
+    case 'code-block':
+      return `${prefixCls}-code`;
     default:
       return null;
   }
@@ -100,16 +104,27 @@ export function blockClassName( block ) {
 
 
 // blocktype 组件渲染函数
-export function blockRenderer( contentBlock ) {
-  // const type = contentBlock.getType();
-  // if ( type === 'atomic' ) {
-  //   return {
-  //     component: MediaComponent,
-  //     editable: false,
-  //     props: {
-  //       foo: 'bar',
-  //     }
-  //   };
-  // }
-}
+export const editorBlockRenderer = ( blockPorps ) => ( contentBlock ) => {
+  const type = contentBlock.getType();
+  if ( type === 'atomic' ) {
+    return {
+      component: EditorAtomic,
+      editable: false,
+      props: blockPorps
+    };
+  }
+  return null;
+};
+
+export const articleBlockRenderer = ( blockPorps ) => ( contentBlock ) => {
+  const type = contentBlock.getType();
+  if ( type === 'atomic' ) {
+    return {
+      component: ArticleAtomic,
+      editable: false,
+      props: blockPorps
+    };
+  }
+  return null;
+};
 

@@ -1,13 +1,14 @@
 
 
 import BlockTypesControls from './block-types-controls';
-import { blockClassName, blockRenderer, blockRenderMap } from './block-types';
+import { blockClassName, editorBlockRenderer, articleBlockRenderer, blockRenderMap } from './block-types';
 
 
 export default {
   blockRenderMap,
   blockClassName,
-  blockRenderer,
+  editorBlockRenderer,
+  articleBlockRenderer,
   BlockTypesControls
 };
 

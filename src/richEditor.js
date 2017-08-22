@@ -2,16 +2,19 @@
 
 import React from 'react';
 import omit from 'omit.js';
-import itis from 'whatitis';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { Editor, EditorState, RichUtils } from 'draft-js';
-import { BlockTypesControls, blockClassName, blockRenderer, blockRenderMap } from './components/block-types';
+import { BlockTypesControls, blockClassName, editorBlockRenderer, blockRenderMap } from './components/block-types';
 import { InlineStylesControls, customStyles } from './components/inline-style';
 import { LinkControls } from './components/link';
-import { createEditorState } from './utils';
+import { PictureControls, AttachmentControls } from './components/upload';
+import Affix from './components/affix';
+import { createEditorState, isES } from './utils';
 import { prefixCls } from './config';
 
+
+const preventDefault = ( e ) => e.preventDefault();
 
 const defaultToolbar = {
   blockTypes: [
@@ -32,21 +35,42 @@ const defaultToolbar = {
     'FONTBACKGROUNTCOLOR'
   ],
   entity: [
-    'link'
+    'link',
+    'picture',
+    // 'attachment'
   ]
 };
 
-const isES = itis.isItClass( EditorState );
+
+function getEntities({ entity, uploadConfig, getPost, ...props }) {
+  return entity.map(( key ) => {
+    if ( key === 'link' ) {
+      return (
+        <LinkControls key="link" {...props} />
+      );
+    } else if ( key === 'picture' ) {
+      return (
+        <PictureControls key="picture" {...uploadConfig} getPost={getPost} {...props} />
+      );
+    } else if ( key === 'attachment' ) {
+      return (
+        <AttachmentControls key="attachment" {...uploadConfig} {...props} />
+      );
+    }
+    return null;
+  }).filter(( entity ) => entity );
+}
+
 
 class RichEditor extends React.Component {
 
   static propTypes = {
+    tabIndex: PropTypes.number,
     value: PropTypes.instanceOf( EditorState ),
     defaultValue: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number,
-      PropTypes.object,
-      PropTypes.instanceOf( EditorState )
+      PropTypes.object
     ]),
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
@@ -54,6 +78,17 @@ class RichEditor extends React.Component {
       blockTypes: PropTypes.arrayOf( PropTypes.string ),
       inlineStyles: PropTypes.arrayOf( PropTypes.string ),
       entity: PropTypes.arrayOf( PropTypes.string )
+    }),
+    uploadConfig: PropTypes.shape({
+      url: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func
+      ]).isRequired,
+      data: PropTypes.oneOfType([
+        PropTypes.object,
+        PropTypes.func
+      ]),
+      beforeResponse: PropTypes.func
     })
   };
 
@@ -63,7 +98,7 @@ class RichEditor extends React.Component {
 
   componentWillMount() {
     const { value, defaultValue } = this.props;
-    if ( isES( value )) {
+    if ( value ) {
       this.setEditorState( value );
     } else if ( defaultValue ) {
       this.setEditorState( defaultValue );
@@ -73,7 +108,7 @@ class RichEditor extends React.Component {
   }
 
   componentWillReceiveProps( nextProps ) {
-    if ( isES( nextProps.value )) {
+    if ( nextProps.value ) {
       this.setEditorState( nextProps.value );
     } else if ( isES( nextProps.defaultValue )) {
       this.setEditorState( nextProps.defaultValue );
@@ -81,6 +116,11 @@ class RichEditor extends React.Component {
       this.setEditorState( nextProps.defaultValue );
     }
   }
+
+  onTab = ( e ) => {
+    const maxDepth = 4;
+    this.handleChange( RichUtils.onTab( e, this.state.editorState, maxDepth ));
+  };
 
   handleChange = ( editorState ) => {
     if ( this.props.onChange ) {
@@ -100,62 +140,108 @@ class RichEditor extends React.Component {
     return false;
   };
 
+  handleFocus = ( e ) => {
+    if ( e.target === e.currentTarget ) {
+      if ( e.type.toLowerCase() === 'mousedown' ) {
+        preventDefault( e );
+      } else {
+        const { editorState } = this.state;
+        this.handleChange( EditorState.moveFocusToEnd( editorState ));
+      }
+    }
+  };
+
   setEditorState( content ) {
     this.state.editorState = createEditorState( content );
   }
 
-  focus = () => {
-    // this.refs.editor.focus();
+  setDomEditorRef = ( editor ) => {
+    this.domEditor = editor;
+  };
+
+  getPost = ( post ) => {
+    this.postFiles = post;
   };
 
   render() {
 
     const { editorState } = this.state;
-    const { placeholder, toolbar = defaultToolbar, className } = this.props;
+    const { placeholder, tabIndex, toolbar = defaultToolbar, uploadConfig, className } = this.props;
     const { blockTypes, inlineStyles, entity } = toolbar;
-    const clsnames = classNames( `${prefixCls}-root`, className );
+    const clsnames = classNames( `${prefixCls}-root ${prefixCls}-cf`, className );
     const props = omit( this.props, [
-      'value', 'defaultValue', 'onChange', 'placeholder', 'toolbar', 'className'
+      'value', 'defaultValue', 'onChange', 'placeholder', 'toolbar', 'className', 'uploadConfig'
     ]);
+    const blockPorps = {
+      getEditorState() {
+        return editorState;
+      },
+      setEditorState: ( editorState ) => {
+        this.handleChange( editorState );
+      },
+      fileurl: uploadConfig.fileurl
+    };
     return (
       <div className={clsnames} {...props}>
-        {Object.keys( toolbar ).map(( key ) => {
-          if ( key === 'blockTypes' ) {
-            return blockTypes && blockTypes.length ? (
-              <BlockTypesControls
-                key="blockTypes"
-                types={blockTypes}
-                editorState={editorState}
-                onToggle={this.handleChange} />
-            ) : null;
-          } else if ( key === 'inlineStyles' ) {
-            return inlineStyles && inlineStyles.length ? (
-              <InlineStylesControls
-                key="inlineStyles"
-                styles={inlineStyles}
-                editorState={editorState}
-                onToggle={this.handleChange} />
-            ) : null;
-          } else if ( key === 'entity' ) {
-            return entity && entity.includes( 'link' ) ? (
-              <LinkControls
-                key="link"
-                editorState={editorState}
-                onToggle={this.handleChange} />
-            ) : null;
-          }
-          return null;
-        }).filter(( elem ) => elem )}
-        <div className={`${prefixCls}-editor`} onClick={this.focus}>
+        <Affix />
+        <div className={`${prefixCls}-toolbar-wrap`}>
+          {Object.keys( toolbar ).map(( key ) => {
+            if ( key === 'blockTypes' ) {
+              return blockTypes && blockTypes.length ? (
+                <BlockTypesControls
+                  key="blockTypes"
+                  types={blockTypes}
+                  editorState={editorState}
+                  onToggle={this.handleChange} />
+              ) : null;
+            } else if ( key === 'inlineStyles' ) {
+              return inlineStyles && inlineStyles.length ? (
+                <InlineStylesControls
+                  key="inlineStyles"
+                  styles={inlineStyles}
+                  editorState={editorState}
+                  onToggle={this.handleChange} />
+              ) : null;
+            } else if ( key === 'entity' ) {
+              return entity ? getEntities({
+                entity, editorState, uploadConfig, getPost: this.getPost, onToggle: this.handleChange
+              }) : null;
+            }
+            return null;
+          }).filter(( elem ) => elem )}
+        </div>
+        <div
+          className={`${prefixCls}-editor`}
+          onMouseDown={this.handleFocus}
+          onClick={this.handleFocus}>
+          <div className={`${prefixCls}-stay-bar`} />
           <Editor
+            // onBlur={() => {
+            //   console.log('onBlur')
+            // }}
+            // onFocus={() => {
+            //   console.log('onFocus')
+            // }}
+            onTab={this.onTab}
+            tabIndex={tabIndex}
             editorState={editorState}
             placeholder={placeholder}
+            ref={this.setDomEditorRef}
             onChange={this.handleChange}
             customStyleMap={customStyles}
             blockStyleFn={blockClassName}
+            handleDrop={( selection, dataTransfer, isInternal ) => {
+              console.log( dataTransfer )
+            }}
+            handlePastedFiles={( files ) => {
+              this.postFiles( files );
+            }}
+            handleDroppedFiles={( selection, files ) => {
+              this.postFiles( files );
+            }}
             blockRenderMap={blockRenderMap}
-            blockRendererFn={blockRenderer}
-            handleKeyCommand={this.handleKeyCommand} />
+            handleKeyCommand={this.handleKeyCommand}
+            blockRendererFn={editorBlockRenderer( blockPorps )} />
         </div>
       </div>
     );

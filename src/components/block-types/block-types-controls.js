@@ -8,14 +8,14 @@ import { prefixCls } from '../../config';
 
 
 // 块元素控制器
-function BlockTypesControls ( props ) {
+function BlockTypesControls( props ) {
 
   const
     { editorState } = props,
     selection = editorState.getSelection(),
     blockType = editorState
       .getCurrentContent()
-      .getBlockForKey( selection.getStartKey() )
+      .getBlockForKey( selection.getStartKey())
       .getType(),
 
     // 点击回调
@@ -27,7 +27,7 @@ function BlockTypesControls ( props ) {
 
     // 激活状态判断
     isAvtive = ( blockType, type ) => {
-      if ( Array.isArray( type ) ) {
+      if ( Array.isArray( type )) {
         return (
           editorState.getSelection().getHasFocus() && type.includes( blockType )
         );
@@ -39,9 +39,9 @@ function BlockTypesControls ( props ) {
 
   return (
     <div className={`${prefixCls}-toolbar`}>
-      {( props.types || Object.keys( blockTypes ) ).map( ( key ) => {
+      {( props.types || Object.keys( blockTypes )).map(( key ) => {
         const
-          type = blockTypes[ key ],
+          type = blockTypes[key],
           Element = type.Element,
           typeName = Array.isArray( type.type ) ? blockType : type.type;
         return (
@@ -53,7 +53,7 @@ function BlockTypesControls ( props ) {
             onToggle={handleToggle}
             active={isAvtive( blockType, type.type )} />
         );
-      } )}
+      })}
     </div>
   );
 }

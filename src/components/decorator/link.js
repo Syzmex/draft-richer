@@ -1,31 +1,22 @@
 
-
 import React from 'react';
-import { Entity } from 'draft-js';
+import { prefixCls } from '../../config';
 
-
-const styles = {
-  link: {
-    color: '#3b5998',
-    textDecoration: 'underline'
-  }
+export const linkFilter = ( contentState ) => ( character ) => {
+  const entityKey = character.getEntity();
+  const entity = entityKey && contentState.getEntity( entityKey );
+  return entity && entity.getType() === 'LINK';
 };
 
-
-export function findLinkEntities( contentBlock, callback ) {
-  contentBlock.findEntityRanges(( character ) => {
-    const entityKey = character.getEntity();
-    return entityKey !== null && Entity.get( entityKey ).getType() === 'LINK';
-  }, callback );
+export function findLinkEntities( contentBlock, callback, contentState ) {
+  contentBlock.findEntityRanges( linkFilter( contentState ), callback );
 }
 
-
-export const Link = ( props ) => {
-  const { url, target } = Entity.get( props.entityKey ).getData();
+export const Link = ({ entityKey, contentState, children }) => {
+  const { url, target } = contentState.getEntity( entityKey ).getData();
   return (
-    <a href={url} target={target} style={styles.link}>
-      {props.children}
+    <a href={url} target={target} className={`${prefixCls}-link`}>
+      {children}
     </a>
   );
 };
-

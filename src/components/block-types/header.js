@@ -39,8 +39,7 @@ function Header( props ) {
 
 
 Header.propTypes = {
-  select: PropTypes.string,
-  // onChange: PropTypes.func
+  select: PropTypes.string
 };
 
 

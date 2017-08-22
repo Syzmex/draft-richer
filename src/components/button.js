@@ -42,7 +42,7 @@ Button.propTypes = {
   label: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.element
-  ]).isRequired
+  ])
 };
 
 
