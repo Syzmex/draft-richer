@@ -230,14 +230,16 @@ class RichEditor extends React.Component {
             onChange={this.handleChange}
             customStyleMap={customStyles}
             blockStyleFn={blockClassName}
-            handleDrop={( selection, dataTransfer, isInternal ) => {
-              console.log( dataTransfer )
+            handleDrop={( selection_, dataTransfer_, isInternal_ ) => {
+              return 'handled';
             }}
             handlePastedFiles={( files ) => {
               this.postFiles( files );
+              return 'handled';
             }}
-            handleDroppedFiles={( selection, files ) => {
+            handleDroppedFiles={( selection_, files ) => {
               this.postFiles( files );
+              return 'handled';
             }}
             blockRenderMap={blockRenderMap}
             handleKeyCommand={this.handleKeyCommand}

@@ -5,7 +5,7 @@ import { prefixCls } from '../../config';
 export const linkFilter = ( contentState ) => ( character ) => {
   const entityKey = character.getEntity();
   const entity = entityKey && contentState.getEntity( entityKey );
-  return entity && entity.getType() === 'LINK';
+  return entity && entity.getType() === 'link';
 };
 
 export function findLinkEntities( contentBlock, callback, contentState ) {

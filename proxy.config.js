@@ -1,7 +1,7 @@
 
 export default {
   '/emms/do/admin': {
-    target: 'http://192.168.1.3',
+    target: 'http://61.160.82.163:8077',
     changeOrigin: true
   }
 };

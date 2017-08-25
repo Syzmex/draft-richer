@@ -65,7 +65,7 @@ class PictureControls extends React.Component {
     const { editorState, onToggle } = this.props;
     const editorStateWithFocus = this.getFocus( editorState );
     const contentState = editorStateWithFocus.getCurrentContent();
-    const contentStateWithEntity = contentState.createEntity( 'PICTURE', 'MUTABLE', {
+    const contentStateWithEntity = contentState.createEntity( 'picture', 'MUTABLE', {
       name: file.name, abort: () => { this.uploader.abort( file ); }
     });
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();

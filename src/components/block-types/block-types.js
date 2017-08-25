@@ -109,7 +109,7 @@ export const editorBlockRenderer = ( blockPorps ) => ( contentBlock ) => {
   if ( type === 'atomic' ) {
     return {
       component: EditorAtomic,
-      editable: false,
+      editable: true,
       props: blockPorps
     };
   }

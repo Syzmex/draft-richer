@@ -55,7 +55,7 @@ class Test extends React.Component {
     const articleContent = isES( this.state.value )
       ? getRaw( this.state.value )
       : this.state.value;
-
+// console.log(JSON.stringify(articleContent))
     return (
       <div>
         <h2>Editor Example</h2>
@@ -65,10 +65,10 @@ class Test extends React.Component {
           defaultValue={this.state.value}
           uploadConfig={{
             url( data ) {
-              return `/emms/do/admin/public/updatetempfile.do?_=${+ new Date()};sessionid=4ED4C42728FA4ECD943988F85481D717`;
+              return `/emms/do/admin/public/updatetempfile.do?_=${+ new Date()};sessionid=37DEBB71AC074F4497D3AE6B59A74FC8`;
             },
             fileurl( data ) {
-              return `/emms/do/admin/public/gettempfile.do?filename=${data.hashname};sessionid=4ED4C42728FA4ECD943988F85481D717`;
+              return `/emms/do/admin/public/gettempfile.do?filename=${data.hashname};sessionid=37DEBB71AC074F4497D3AE6B59A74FC8`;
             },
             beforeResponse( response, handleSuccess, handleError ) {
               try {
@@ -85,7 +85,7 @@ class Test extends React.Component {
               }
             }
           }}
-          style={{ width: 800 }} />
+          style={{ width: 500 }} />
         <br />
         <br />
         <br />
@@ -93,7 +93,7 @@ class Test extends React.Component {
         <Article
           content={articleContent}
           fileurl={( data ) => {
-            return `/emms/do/admin/public/gettempfile.do?filename=${data.hashname};sessionid=4ED4C42728FA4ECD943988F85481D717`;
+            return `/emms/do/admin/public/gettempfile.do?_=asasd&filename=${data.hashname};sessionid=37DEBB71AC074F4497D3AE6B59A74FC8`;
           }} />
       </div>
     );

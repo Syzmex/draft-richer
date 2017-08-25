@@ -14,7 +14,7 @@ export class EditorAtomic extends React.Component {
     let media = null;
     if ( type === 'audio' ) {
       media = <Audio src={src} />;
-    } else if ( type === 'PICTURE' ) {
+    } else if ( type === 'picture' ) {
       media = <EditorPicture {...data} {...blockProps} contentState={contentState} entityKey={entityKey} />;
     } else if ( type === 'video' ) {
       media = <Video src={src} />;

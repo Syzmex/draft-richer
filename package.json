@@ -1,7 +1,7 @@
 {
   "name": "draft-richer",
   "description": "基于facebook的 draft-js 的 React 编辑器",
-  "version": "0.3.2",
+  "version": "0.3.5",
   "keywords": [
     "draftjs",
     "draftricher",
@@ -16,9 +16,6 @@
   "homepage": "https://syzmex.github.io/draft-richer",
   "bugs": "https://github.com/syzmex/draft-richer/issues",
   "main": "lib/index.js",
-  "entry": {
-    "index": "./examples/server.js"
-  },
   "repository": "syzmex/draft-richer",
   "license": "MIT",
   "dependencies": {

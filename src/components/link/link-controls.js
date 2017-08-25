@@ -24,7 +24,7 @@ class LinkControls extends React.Component {
 
     if ( values ) {
       const contentState = editorState.getCurrentContent();
-      const contentStateWithEntity = contentState.createEntity( 'LINK', 'MUTABLE', {
+      const contentStateWithEntity = contentState.createEntity( 'link', 'MUTABLE', {
         url: values.http + values.url, target: values.target
       });
       const entityKey = contentStateWithEntity.getLastCreatedEntityKey();

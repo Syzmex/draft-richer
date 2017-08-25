@@ -235,7 +235,7 @@ export class EditorPicture extends React.Component {
       </div>
     );
     return (
-      <div className={clsname} title={name} ref={( c ) => { if ( c ) this.wrap = c; }}>
+      <div className={clsname} ref={( c ) => { if ( c ) this.wrap = c; }}>
         {hashname && !error ? (
           <Resizable
             height="auto"
@@ -260,25 +260,18 @@ export class EditorPicture extends React.Component {
 export class ArticlePicture extends React.Component {
 
   static propTypes = {
-    // url: PropTypes.string,
     fileurl: PropTypes.func
   };
 
   state = {
-    url: '',
-    loaded: false
+    url: ''
   };
 
-  componentDidMount() {
+  componentWillMount() {
     const { fileurl, hashname } = this.props;
     if ( hashname ) {
       const url = fileurl({ hashname });
-      imgLoader( url, () => {}, () => {
-        this.setState({
-          url,
-          loaded: true
-        });
-      });
+      this.state.url = url;
     }
   }
 
@@ -286,18 +279,13 @@ export class ArticlePicture extends React.Component {
     const { fileurl, hashname } = nextProps;
     if ( hashname && !this.props.hashname ) {
       const url = fileurl({ hashname });
-      imgLoader( url, () => {}, () => {
-        this.setState({
-          url,
-          loaded: true
-        });
-      });
+      this.setState({ url });
     }
   }
 
   render() {
-    const { url, loaded } = this.state;
-    const { name, width, height, align } = this.props;
+    const { url } = this.state;
+    const { name, width, align } = this.props;
     const clsname = classnames( `${prefixCls}-picture`, {
       [`${prefixCls}-picture-left`]: align === 'left',
       [`${prefixCls}-picture-center`]: align === 'center',
@@ -305,7 +293,7 @@ export class ArticlePicture extends React.Component {
       [`${prefixCls}-picture-inline`]: align === 'inline'
     });
     return (
-      <div className={clsname} style={{ width, height: loaded ? 'auto' : height }}>
+      <div className={clsname} style={{ width, height: 'auto' }}>
         {url ? <img alt={name} src={url} style={{ width: '100%', height: 'auto' }} /> : null}
       </div>
     );
