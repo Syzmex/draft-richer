@@ -79,6 +79,10 @@ class RichEditor extends React.Component {
       inlineStyles: PropTypes.arrayOf( PropTypes.string ),
       entity: PropTypes.arrayOf( PropTypes.string )
     }),
+    // picture {
+    //  onDelete, onCreate
+    // }
+    component: PropTypes.object, // eslint-disable-line
     uploadConfig: PropTypes.shape({
       url: PropTypes.oneOfType([
         PropTypes.string,
@@ -90,6 +94,12 @@ class RichEditor extends React.Component {
       ]),
       beforeResponse: PropTypes.func
     })
+  };
+
+  static defaultProps = {
+    component: {},
+    uploadConfig: {},
+    toolbar: defaultToolbar
   };
 
   state = {
@@ -166,11 +176,13 @@ class RichEditor extends React.Component {
   render() {
 
     const { editorState } = this.state;
-    const { placeholder, tabIndex, toolbar = defaultToolbar, uploadConfig, className } = this.props;
+    const { placeholder, tabIndex, toolbar, uploadConfig,
+      className, component } = this.props;
     const { blockTypes, inlineStyles, entity } = toolbar;
     const clsnames = classNames( `${prefixCls}-root ${prefixCls}-cf`, className );
     const props = omit( this.props, [
-      'value', 'defaultValue', 'onChange', 'placeholder', 'toolbar', 'className', 'uploadConfig'
+      'value', 'defaultValue', 'onChange', 'placeholder', 'toolbar',
+      'className', 'uploadConfig', 'component'
     ]);
     const blockPorps = {
       getEditorState() {
@@ -179,7 +191,8 @@ class RichEditor extends React.Component {
       setEditorState: ( editorState ) => {
         this.handleChange( editorState );
       },
-      fileurl: uploadConfig.fileurl
+      fileurl: uploadConfig.fileurl,
+      component
     };
     return (
       <div className={clsnames} {...props}>

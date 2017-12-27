@@ -65,7 +65,7 @@ class PictureControls extends React.Component {
     const { editorState, onToggle } = this.props;
     const editorStateWithFocus = this.getFocus( editorState );
     const contentState = editorStateWithFocus.getCurrentContent();
-    const contentStateWithEntity = contentState.createEntity( 'picture', 'MUTABLE', {
+    const contentStateWithEntity = contentState.createEntity( 'PICTURE', 'MUTABLE', {
       name: file.name, abort: () => { this.uploader.abort( file ); }
     });
     const entityKey = contentStateWithEntity.getLastCreatedEntityKey();
@@ -125,7 +125,6 @@ class PictureControls extends React.Component {
     const { uploaderProps } = this.state;
     return (
       <Upload
-        key="1"
         component="div"
         className={`${prefixCls}-toolbar`}
         ref={( c ) => { if ( c ) this.uploader = c; }}

@@ -65,10 +65,10 @@ class Test extends React.Component {
           defaultValue={this.state.value}
           uploadConfig={{
             url( data ) {
-              return `/emms/do/admin/public/updatetempfile.do?_=${+ new Date()};sessionid=37DEBB71AC074F4497D3AE6B59A74FC8`;
+              return `/emms/do/admin/public/updatetempfile.do?_=${+ new Date()};sessionid=2C92A5EDF306470E9131258D34195F54`;
             },
             fileurl( data ) {
-              return `/emms/do/admin/public/gettempfile.do?filename=${data.hashname};sessionid=37DEBB71AC074F4497D3AE6B59A74FC8`;
+              return `/emms/do/admin/public/gettempfile.do?filename=${data.hashname};sessionid=2C92A5EDF306470E9131258D34195F54`;
             },
             beforeResponse( response, handleSuccess, handleError ) {
               try {
@@ -93,7 +93,7 @@ class Test extends React.Component {
         <Article
           content={articleContent}
           fileurl={( data ) => {
-            return `/emms/do/admin/public/gettempfile.do?_=asasd&filename=${data.hashname};sessionid=37DEBB71AC074F4497D3AE6B59A74FC8`;
+            return `/emms/do/admin/public/gettempfile.do?_=asasd&filename=${data.hashname};sessionid=2C92A5EDF306470E9131258D34195F54`;
           }} />
       </div>
     );

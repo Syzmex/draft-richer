@@ -23,7 +23,9 @@ export class EditorPicture extends React.Component {
     abort: PropTypes.func,
     align: PropTypes.string,
     percent: PropTypes.number,
-    error: PropTypes.string
+    error: PropTypes.string,
+    onDelete: PropTypes.func,
+    onCreate: PropTypes.func
   };
 
   // static defaultProps = {
@@ -31,7 +33,7 @@ export class EditorPicture extends React.Component {
   // }
 
   state = {
-    unit: 'px',
+    unit: '%',
     showPanel: false,
     enable: {
       top: false,
@@ -45,48 +47,24 @@ export class EditorPicture extends React.Component {
     }
   };
 
+  componentDidMount() {
+    const { name, hashname } = this.props;
+    if ( name && hashname ) {
+      this.preLoad( this.props );
+    }
+  }
+
   componentWillReceiveProps( nextProps ) {
-    const { hashname, width, fileurl } = nextProps;
-    if ( !this.props.hashname && hashname ) {
-      let size;
-      const url = fileurl({ hashname });
-      imgLoader( url, ( img ) => {
-        size = this.getSize( img, width );
-        this.resizable.updateSize({
-          width: size.width,
-          height: size.height
-        });
-        this.updateData({
-          width: size.width,
-          height: size.height
-        });
-      }, () => {
-        this.resizable.updateSize({
-          width: size.width,
-          height: 'auto'
-        });
-        this.updateData({
-          width: size.width,
-          height: size.height
-        });
-        this.setState({
-          showPanel: true,
-          enable: {
-            top: false,
-            right: true,
-            bottom: true,
-            left: true,
-            topRight: false,
-            bottomRight: true,
-            bottomLeft: true,
-            topLeft: false
-          }
-        });
-      });
+    if ( !this.props.hashname && nextProps.hashname ) {
+      this.preLoad( nextProps );
     }
   }
 
   componentWillUnmount() {
+    const { name, hashname } = this.props;
+    if ( this.props.onDelete ) {
+      this.props.onDelete({ name, hashname });
+    }
     if ( this.props.abort ) {
       this.props.abort();
     }
@@ -98,7 +76,7 @@ export class EditorPicture extends React.Component {
     if ( unit === '%' ) {
       this.updateData({
         width: `${Math.round( Math.min( 1, get( refToElement, 'width' ) / parentWidth ) * 100 )}%`,
-        height: get( refToElement, 'height' )
+        height: 'auto'
       });
     } else {
       this.updateData({
@@ -109,20 +87,20 @@ export class EditorPicture extends React.Component {
   };
 
   handleUnitChange = () => {
-    const { unit } = this.state;
-    const { width } = this.props;
-    const parentWidth = get( this.wrap, 'width' );
-    if ( unit === '%' ) {
-      this.updateData({
-        width: Math.round( parseFloat( width.replace( /%$/, '' )) / 100 * parentWidth )
-      });
-      this.setState({ unit: 'px' });
-    } else {
-      this.updateData({
-        width: `${Math.round( Math.min( 1, width / parentWidth ) * 100 )}%`
-      });
-      this.setState({ unit: '%' });
-    }
+    // const { unit } = this.state;
+    // const { width } = this.props;
+    // const parentWidth = get( this.wrap, 'width' );
+    // if ( unit === '%' ) {
+    //   this.updateData({
+    //     width: Math.round( parseFloat( width.replace( /%$/, '' )) / 100 * parentWidth )
+    //   });
+    //   this.setState({ unit: 'px' });
+    // } else {
+    //   this.updateData({
+    //     width: `${Math.round( Math.min( 1, width / parentWidth ) * 100 )}%`
+    //   });
+    //   this.setState({ unit: '%' });
+    // }
   };
 
   handleAlignChange = ( align ) => {
@@ -147,12 +125,12 @@ export class EditorPicture extends React.Component {
       if ( unit === '%' ) {
         return {
           width,
-          height: Math.round( rate * parseFloat( width.replace( /%$/, '' )) / 100 * parentWidth )
+          height: 'auto'
         };
       }
       return {
         width: Math.round( parseFloat( width.replace( /%$/, '' )) / 100 * parentWidth ),
-        height: Math.round( rate * parseFloat( width.replace( /%$/, '' )) / 100 * parentWidth )
+        height: 'auto'
       };
 
     // width = 'px'
@@ -166,7 +144,7 @@ export class EditorPicture extends React.Component {
       if ( unit === '%' ) {
         return {
           width: `${Math.round( Math.min( 1, nWidth / parentWidth ) * 100 )}%`,
-          height: Math.min( rate * nWidth, rate * parentWidth )
+          height: 'auto'
         };
       }
       return {
@@ -179,7 +157,7 @@ export class EditorPicture extends React.Component {
     if ( unit === '%' ) {
       return {
         width: `${Math.round( Math.min( 1, img.width / parentWidth ) * 100 )}%`,
-        height: Math.min( img.height, rate * parentWidth )
+        height: 'auto'
       };
     }
     return {
@@ -193,6 +171,48 @@ export class EditorPicture extends React.Component {
     const newContentState = contentState.mergeEntityData( entityKey, data );
     const newEditorState = EditorState.set( getEditorState(), { currentContent: newContentState });
     setEditorState( newEditorState );
+  };
+
+  preLoad = ( props ) => {
+    let size;
+    const { name, hashname, width, onCreate, fileurl } = props;
+    const url = fileurl({ hashname });
+    imgLoader( url, ( img ) => {
+      size = this.getSize( img, width );
+      this.resizable.updateSize({
+        width: size.width,
+        height: size.height
+      });
+      this.updateData({
+        width: size.width,
+        height: size.height
+      });
+    }, () => {
+      if ( onCreate ) {
+        onCreate({ name, hashname });
+      }
+      this.resizable.updateSize({
+        width: size.width,
+        height: 'auto'
+      });
+      this.updateData({
+        width: size.width,
+        height: size.height
+      });
+      this.setState({
+        showPanel: true,
+        enable: {
+          top: false,
+          right: true,
+          bottom: true,
+          left: true,
+          topRight: false,
+          bottomRight: true,
+          bottomLeft: true,
+          topLeft: false
+        }
+      });
+    });
   };
 
   render() {
@@ -293,7 +313,7 @@ export class ArticlePicture extends React.Component {
       [`${prefixCls}-picture-inline`]: align === 'inline'
     });
     return (
-      <div className={clsname} style={{ width, height: 'auto' }}>
+      <div className={clsname} style={{ width, height: 'auto', maxWidth: '100%' }}>
         {url ? <img alt={name} src={url} style={{ width: '100%', height: 'auto' }} /> : null}
       </div>
     );
