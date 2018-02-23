@@ -1,7 +1,7 @@
 {
   "name": "draft-richer",
   "description": "基于facebook的 draft-js 的 React 编辑器",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "keywords": [
     "draftjs",
     "draftricher",
@@ -61,9 +61,9 @@
     "rimraf": "^2.6.1"
   },
   "peerDependencies": {
-    "antd": "3.x",
-    "react": "16.x",
-    "react-dom": "16.x",
+    "antd": "2.x || 3.x",
+    "react": "15.x || 16.x",
+    "react-dom": "15.x || 16.x",
     "prop-types": "15.x"
   },
   "scripts": {
